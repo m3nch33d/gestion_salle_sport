@@ -4,6 +4,7 @@
   "description": "",
   "main": "tailwind.config.js",
   "scripts": {
+    "dev": "npx tailwindcss -i ./src/input.css -o ./public/css/style.css --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,6 +12,6 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
-    "tailwindcss": "^4.2.1"
+    "tailwindcss": "^3.4.17"
   }
 }
