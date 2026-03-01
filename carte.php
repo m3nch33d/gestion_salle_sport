@@ -1,64 +1,81 @@
-<?php
-session_start();
-require_once 'config/db.php';
+<?php 
+// FORCER LA LECTURE DE LA SESSION AVANT LE HEADER
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-if (!isset($_SESSION['admin_id'])) {
+// Vérification manuelle rapide pour le débogage
+if (!isset($_SESSION['utilisateur_id'])) {
+    // Si on arrive ici, c'est que la session est vide
     header("Location: login.php");
     exit();
 }
 
+require_once 'config/db.php'; 
+
+// Récupération sécurisée de l'ID
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+if ($id <= 0) {
+    header("Location: membres.php");
+    exit();
+}
+
+// Récupérer les infos du membre
 $stmt = $pdo->prepare("SELECT * FROM membres WHERE id = ?");
 $stmt->execute([$id]);
 $m = $stmt->fetch();
 
-if (!$m) { die("Membre introuvable."); }
+if (!$m) {
+    die("Erreur : Ce membre n'existe pas dans la base de données.");
+}
+
+// Maintenant on inclut le header pour le design (Sidebar, etc.)
+include 'includes/header.php'; 
 ?>
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Carte Membre - <?= htmlspecialchars($m['prenom']) ?></title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <style>
-        @media print { .no-print { display: none; } }
-    </style>
-</head>
-<body class="bg-slate-900 flex flex-col items-center justify-center min-h-screen p-4">
-
-    <div class="bg-white rounded-[40px] shadow-2xl p-10 w-full max-w-sm text-center relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-3 bg-indigo-600"></div>
-
-        <h1 class="text-3xl font-black text-slate-800 uppercase mt-4"><?= htmlspecialchars($m['nom']) ?></h1>
-        <p class="text-indigo-600 font-bold text-xl mb-8"><?= htmlspecialchars($m['prenom']) ?></p>
-
-        <div class="flex justify-center mb-8">
-            <div id="qrcode" class="p-4 bg-white border-2 border-dashed border-slate-200 rounded-3xl"></div>
+<div class="flex flex-col items-center justify-center p-6">
+    <div class="bg-white p-10 rounded-[50px] shadow-2xl border border-slate-100 w-full max-w-md text-center">
+        
+        <div class="mb-6">
+            <h2 class="text-4xl font-black text-slate-800 uppercase leading-none">
+                <?= htmlspecialchars($m['nom']) ?>
+            </h2>
+            <p class="text-teal-500 font-bold text-xl mt-2">
+                <?= htmlspecialchars($m['prenom']) ?>
+            </p>
         </div>
 
-        <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-10 italic">Scannez ce code à l'entrée</p>
+        <div class="bg-slate-50 p-8 rounded-[40px] border-2 border-dashed border-slate-200 mb-8 inline-block">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=<?= $m['id'] ?>" 
+                 alt="QR Code Membre" 
+                 style="width: 180px; height: 180px;"
+                 class="mx-auto">
+        </div>
 
-        <button onclick="window.print()" class="no-print w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-black py-4 rounded-2xl transition mb-4">
-            Imprimer la carte
-        </button>
+        <p class="text-slate-400 text-xs font-black uppercase tracking-[0.2em] mb-10">
+            ID MEMBRE : #<?= $m['id'] ?> | SCANNEZ À L'ENTRÉE
+        </p>
 
-        <a href="membres.php" class="no-print text-slate-400 font-bold hover:text-indigo-600 transition text-sm">
-            Retour
-        </a>
+        <div class="space-y-4 no-print">
+            <button onclick="window.print()" class="w-full bg-teal-500 hover:bg-teal-400 text-slate-900 font-black py-5 rounded-2xl transition transform hover:scale-105 shadow-lg shadow-teal-500/20">
+                🖨️ IMPRIMER LA CARTE
+            </button>
+            <a href="membres.php" class="block text-slate-400 font-bold hover:text-slate-600 transition text-sm">
+                ← Retour à la liste
+            </a>
+        </div>
     </div>
+</div>
 
-    <script>
-        // On génère le QR Code avec l'ID du membre
-        new QRCode(document.getElementById("qrcode"), {
-            text: "<?= $m['id'] ?>",
-            width: 180,
-            height: 180,
-            colorDark : "#1e293b",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
-        });
-    </script>
-</body>
+<style>
+    @media print {
+        .no-print, aside, .sidebar-link { display: none !important; }
+        main { margin-left: 0 !important; padding: 0 !important; }
+        body { background: white !important; }
+        .shadow-2xl { border: 1px solid #eee !important; box-shadow: none !important; }
+    </div>
+</style>
+
+</main> </body>
 </html>

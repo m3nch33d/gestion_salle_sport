@@ -1,14 +1,6 @@
 <?php 
-session_start();
-require_once 'config/db.php'; 
-
-// Sécurité : Seuls les admins connectés voient les finances
-if (!isset($_SESSION['admin_id'])) {
-    header("Location: login.php");
-    exit();
-}
-
 include 'includes/header.php'; 
+require_once 'config/db.php';
 
 // 1. Calcul du Total des paiements par mois (Année en cours)
 $sql_mensuel = "SELECT MONTH(date_paiement) as mois, SUM(montant_paye) as total 
@@ -30,7 +22,7 @@ $nom_mois = [1=>"Janvier", 2=>"Février", 3=>"Mars", 4=>"Avril", 5=>"Mai", 6=>"J
              7=>"Juillet", 8=>"Août", 9=>"Septembre", 10=>"Octobre", 11=>"Novembre", 12=>"Décembre"];
 ?>
 
-<div class="container bg-teal-100 border-slate-100 mx-auto px-4 py-8">
+<div class="container bg-teal-100 rounded-[50px] mx-auto px-4 py-8 shadow-2xl">
     <div class="mb-10 bg-teal-500 text-white p-6 rounded-[30px] shadow-lg">
         <h1 class="text-4xl font-black text-gray-800 tracking-tighter italic uppercase">Rapport Financier <?= date('Y') ?></h1>
         <p class="text-gray-500">Analyse des revenus et suivi des recouvrements.</p>

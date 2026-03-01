@@ -33,19 +33,26 @@ if (!isset($_SESSION['utilisateur_id'])) {
         </div>
 
         <nav class="flex-1 px-4 space-y-2 mt-4">
-            <a href="index.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'index.php' ? 'sidebar-active' : '' ?>">
-                <span class="mr-3">📊</span> Dashboard
-            </a>
-            <a href="membres.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'membres.php' ? 'sidebar-active' : '' ?>">
-                <span class="mr-3">👥</span> Membres
-            </a>
-            <a href="scanner.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'scanner.php' ? 'sidebar-active' : '' ?>">
-                <span class="mr-3">🛡️</span> Scanner Entrée
-            </a>
-            <a href="rapports.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'rapports.php' ? 'sidebar-active' : '' ?>">
-                <span class="mr-3">💰</span> Rapports Financiers
-            </a>
-        </nav>
+    <a href="index.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'index.php' ? 'sidebar-active' : '' ?>">
+        <span class="mr-3">📊</span> Dashboard
+    </a>
+    <a href="membres.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'membres.php' ? 'sidebar-active' : '' ?>">
+        <span class="mr-3">👥</span> Membres
+    </a>
+    <a href="abonnements.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'abonnements.php' ? 'sidebar-active' : '' ?>">
+        <span class="mr-3">💳</span> Abonnements
+    </a>
+    <a href="souscriptions.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'souscriptions.php' ? 'sidebar-active' : '' ?>">
+        <span class="mr-3">📝</span> Souscriptions
+    </a>
+    <hr class="border-slate-800 my-4">
+    <a href="scanner.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'scanner.php' ? 'sidebar-active' : '' ?>">
+        <span class="mr-3">🛡️</span> Scanner Entrée
+    </a>
+    <a href="rapports.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'rapports.php' ? 'sidebar-active' : '' ?>">
+        <span class="mr-3">💰</span> Rapports Financiers
+    </a>
+</nav>
 
         <div class="p-4 border-t border-slate-800">
             <div class="flex items-center p-2 mb-4">
