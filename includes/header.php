@@ -14,7 +14,7 @@ if (!isset($_SESSION['utilisateur_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeuroCode Gym - Admin</title>
+    <title>Dechouke Grès Fitness - Admin</title>
     <link rel="stylesheet" href="public/css/style.css">
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -28,29 +28,29 @@ if (!isset($_SESSION['utilisateur_id'])) {
 
     <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col fixed h-full z-50">
         <div class="p-6 text-center">
-            <h1 class="text-2xl font-black text-teal-400 italic tracking-tighter">NEUROCODE GYM</h1>
+            <h1 class="text-2xl font-black text-teal-400 italic tracking-tighter">Dechouke Grès Fitness</h1>
             <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Management System</p>
         </div>
 
         <nav class="flex-1 px-4 space-y-2 mt-4">
     <a href="index.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'index.php' ? 'sidebar-active' : '' ?>">
-        <span class="mr-3">📊</span> Dashboard
+        <span class="mr-3"><img src="assets/images/dashboard.png" class="w-5 h-5"></span> Dashboard
     </a>
     <a href="membres.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'membres.php' ? 'sidebar-active' : '' ?>">
-        <span class="mr-3">👥</span> Membres
+        <span class="mr-3"><img src="assets/images/members.png" class="w-5 h-5"></span> Membres
     </a>
     <a href="abonnements.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'abonnements.php' ? 'sidebar-active' : '' ?>">
-        <span class="mr-3">💳</span> Abonnements
+        <span class="mr-3"><img src="assets/images/abonnement.png" class="w-5 h-5"></span> Abonnements
     </a>
     <a href="souscriptions.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'souscriptions.php' ? 'sidebar-active' : '' ?>">
-        <span class="mr-3">📝</span> Souscriptions
+        <span class="mr-3"><img src="assets/images/souscriptions.png" class="w-5 h-5"></span> Souscriptions
     </a>
     <hr class="border-slate-800 my-4">
     <a href="scanner.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'scanner.php' ? 'sidebar-active' : '' ?>">
-        <span class="mr-3">🛡️</span> Scanner Entrée
+        <span class="mr-3"><img src="assets/images/security.png" class="w-5 h-5"></span> Scanner Entrée
     </a>
     <a href="rapports.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'rapports.php' ? 'sidebar-active' : '' ?>">
-        <span class="mr-3">💰</span> Rapports Financiers
+        <span class="mr-3"><img src="assets/images/bagmoney.png" class="w-5 h-5"></span> Rapports Financiers
     </a>
 </nav>
 
