@@ -26,7 +26,7 @@ if (!isset($_SESSION['utilisateur_id'])) {
 </head>
 <body class="flex min-h-screen">
 
-    <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col fixed h-full z-50">
+    <aside class="w-64 bg-slate-900 text-slate-400 flex flex-col fixed h-full z-50">
         <div class="p-6 text-center">
             <h1 class="text-2xl font-black text-teal-400 italic tracking-tighter">Dechouke Grès Fitness</h1>
             <p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">Management System</p>

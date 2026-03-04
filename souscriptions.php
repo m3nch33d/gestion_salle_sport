@@ -59,7 +59,7 @@ $souscriptions = $query->fetchAll(PDO::FETCH_ASSOC);
 
 <div class=" justify-between items-center mb-6">
 <a href="encaisser.php" class="block p-6 bg-emerald-500  text-white rounded-[20px] shadow-lg shadow-emerald-500/30 transition transform hover:-translate-y-1">
-        <p class="text-2xl mb-2">💰</p>
+        <p class="text-2xl mb-2"><img src="assets/images/bagmoney.png" class="w-10 h-10"></p>
         <p class="font-black uppercase tracking-tighter">Encaisser un Paiement</p>
         <p class="text-emerald-100 text-xs">Enregistrer une cotisation ou un frais</p>
     </a>
