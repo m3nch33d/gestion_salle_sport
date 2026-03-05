@@ -12,19 +12,23 @@ $membres = $query->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="space-y-8">
     <div class="flex justify-between items-center">
-        <div>
+
+         <div class="p-3 border border-[8px]-teal-500 rounded-[20px]">
             <h2 class="text-3xl font-black text-slate-800 tracking-tight uppercase">Gestion des Adhérents</h2>
             <p class="text-slate-500 font-medium">Liste complète des membres de la salle</p>
-        </div>
+        </div> 
+
+        
+
         <a href="ajouter_membre.php" class="bg-teal-500 hover:bg-teal-400 text-slate-900 px-6 py-3 rounded-2xl font-black transition shadow-lg flex items-center transform hover:scale-105">
-            <span class="mr-2">➕</span> Ajouter un membre
+            <span class="mr-2"> <img src="assets/images/add.png" class="w-10 h-10">  </span> Ajouter un membre
         </a>
     </div>
 
     <div class="bg-white rounded-[40px] shadow-sm border border-slate-100 overflow-hidden">
         <table class="min-w-full">
             <thead>
-                <tr class="bg-slate-50 border-b border-slate-200 text-slate-400 text-left text-xs uppercase font-bold tracking-widest">
+                <tr class="bg-slate-50 border-b border-slate-200 text-slate-400 text-left text-xs uppercase font-bold tracking-widest shadow-xl">
                     <th class="px-6 py-5">Membre</th>
                     <th class="px-6 py-5">Téléphone</th>
                     <th class="px-6 py-5">Statut</th>
@@ -66,7 +70,7 @@ $membres = $query->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="flex justify-end mt-8">
         <a href="presences.php" class="bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-2xl font-black transition shadow-lg flex items-center transform hover:scale-105">
-            <span class="mr-2 text-lg">📋</span> Liste des présences
+            <span class="mr-2 text-lg"><img src="assets/images/souscriptions.png" class="w-10 h-10"></span> Liste des présences
         </a>
     </div>
 </div> </main> <script>

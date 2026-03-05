@@ -20,12 +20,14 @@ try {
 
 <div class="space-y-8">
     <div class="flex justify-between items-center">
-        <div>
+
+        <div class="p-3 border border-[8px]-teal-500 rounded-[20px]">
             <h2 class="text-3xl font-black text-slate-800 tracking-tight uppercase">Suivi des Abonnements</h2>
             <p class="text-slate-500 font-medium">Historique des paiements et validité des accès</p>
         </div>
+
         <a href="ajouter_abonnement.php" class="bg-teal-500 hover:bg-teal-400 text-slate-900 px-6 py-3 rounded-2xl font-black transition shadow-lg flex items-center transform hover:scale-105">
-            <span class="mr-2">💳</span> Nouvel Abonnement
+            <span class="mr-2"> <img src="assets/images/cc.png" class="w-10 h-10">  </span> Nouvel Abonnement
         </a>
     </div>
 
