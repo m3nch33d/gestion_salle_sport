@@ -44,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+<<<<<<< HEAD
         .login-card {
             background: rgba(15, 23, 42, 0.9);
             backdrop-filter: blur(20px);
@@ -51,6 +52,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         .neon-input {
             background: #eef4ff !important;
+=======
+        
+        /* Effet Glassmorphism */
+        .login-card {
+            background: rgba(255, 255, 255, 0.05); /* Très transparent */
+            backdrop-filter: blur(15px); /* Flou d'arrière-plan */
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Bordure brillante légère */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .neon-input {
+            background: rgba(255, 255, 255, 0.9) !important;
+>>>>>>> 7e8a91057e02ca00628d58e63ac6c9f2945e29bc
             transition: all 0.3s ease;
         }
         .neon-input:focus {
@@ -64,11 +79,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="flex w-full max-w-5xl h-[600px] shadow-2xl rounded-[40px] overflow-hidden login-card animate__animated animate__zoomIn">
         
         <div class="w-full md:w-1/2 p-12 flex flex-col justify-center">
+<<<<<<< HEAD
             <h1 class="text-5xl font-bold text-white mb-10 animate__animated animate__fadeInDown">Login</h1>
             
             <?php if($erreur): ?>
                 <div class="bg-red-900/40 text-red-400 p-4 rounded-2xl mb-6 text-sm border border-red-500/50 flex items-center animate__animated animate__shakeX">
                     <span class="mr-2">⚠️</span> <?= $erreur ?>
+=======
+            <h1 class="text-5xl font-bold text-white mb-10 animate__animated animate__fadeInDown">Se connecter!</h1>
+            
+            <?php if($erreur): ?>
+                <div class="bg-red-900/40 text-red-400 p-4 rounded-2xl mb-6 text-sm border border-red-500/50 flex items-center animate__animated animate__shakeX">
+                    <span class="mr-2"><img src="assets/images/warning.png" alt="Error" class="w-6 h-6"></span> <?= $erreur ?>
+>>>>>>> 7e8a91057e02ca00628d58e63ac6c9f2945e29bc
                 </div>
             <?php endif; ?>
 
@@ -83,6 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 
                 <button type="submit" class="w-full bg-[#14b8a6] text-slate-900 font-black text-xl py-5 rounded-full transition-all duration-300 hover:tracking-widest hover:bg-teal-300 active:scale-95 shadow-[0_0_20px_rgba(20,184,166,0.4)] animate__animated animate__fadeInUp">
+<<<<<<< HEAD
                     LET'S GO !
                 </button>
             </form>
@@ -95,6 +119,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="hidden md:flex w-1/2 flex-col justify-center items-center text-center p-12 relative bg-gradient-to-br from-teal-500/10 to-transparent">
             <h2 class="text-6xl font-black text-white mb-4 tracking-tighter animate__animated animate__fadeInRight">ADMIN ONLY</h2>
             <p class="text-teal-100/60 italic text-lg mb-10 animate__animated animate__fadeInRight" style="animation-delay: 0.5s;">Welcome back, Caleb & Boss.</p>
+=======
+                    CONNECTER
+                </button>
+            </form>
+
+            <div class="mt-8 text-right text-sm text-gray-400 animate__animated animate__fadeIn">
+                <a href="forgot_password.php" class="text-teal-400 font-bold hover:underline transition-colors hover:text-teal-200">Mot de passe oublié?</a>
+            </div>
+        </div>
+
+        <div class="hidden md:flex w-1/2 flex-col justify-center items-center text-center p-12 relative bg-gradient-to-br from-white/5 to-transparent">
+            <h2 class="text-6xl font-black text-white mb-4 tracking-tighter animate__animated animate__fadeInRight">Administrateur(s)</h2>
+            <p class="text-teal-100/60 italic text-lg mb-10 animate__animated animate__fadeInRight" style="animation-delay: 0.5s;">Welcome back, Augustin & Celestin!</p>
+>>>>>>> 7e8a91057e02ca00628d58e63ac6c9f2945e29bc
             
             <img src="assets/images/wel_guy.png" 
                  alt="Coach" class="w-64 h-auto drop-shadow-[0_0_30px_rgba(20,184,166,0.3)] animate__animated animate__pulse animate__infinite animate__slow">
