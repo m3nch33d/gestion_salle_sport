@@ -31,7 +31,7 @@ if (!$data) die("Paiement introuvable.");
     <div class="max-w-xl mx-auto bg-white p-8 border shadow-sm rounded-lg" id="printable">
         <div class="flex justify-between items-start mb-8">
             <div>
-                <h1 class="text-2xl font-bold text-indigo-600 uppercase">Ma Salle de Sport</h1>
+                <h1 class="text-2xl font-bold text-teal-500 uppercase">Ma Salle de Sport</h1>
                 <p class="text-sm text-gray-500">Cap-Haïtien, Haïti</p>
             </div>
             <div class="text-right">
@@ -70,7 +70,7 @@ if (!$data) die("Paiement introuvable.");
     </div>
 
     <div class="text-center mt-10 no-print">
-        <button onclick="window.print()" class="bg-blue-600 text-white px-8 py-3 rounded-full font-bold shadow-lg">
+        <button onclick="window.print()" class="bg-teal-300 text-white px-8 py-3 rounded-full font-bold shadow-lg">
             Imprimer le reçu (PDF)
         </button>
         <a href="paiements.php" class="block mt-4 text-gray-500 hover:underline">Retour</a>
