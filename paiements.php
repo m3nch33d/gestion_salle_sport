@@ -95,16 +95,23 @@ $paiements = $query->fetchAll(PDO::FETCH_ASSOC);
                     <td class="px-6 py-5 font-black text-emerald-600">
                         <?= number_format($p['montant_paye'], 2, '.', ' ') ?> HTG
                     </td>
-                    <td class="px-6 py-5 text-center">
-                        <span class="px-3 py-1 bg-slate-200 text-slate-600 text-[9px] font-black uppercase rounded-lg border border-slate-300">
-                            <?= $p['methode_paiement'] ?>
-                        </span>
-                    </td>
-                    <td class="px-6 py-5 text-center">
-                        <a href="recu.php?id=<?= $p['id'] ?>" class="inline-flex items-center px-4 py-2 bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white rounded-xl text-[10px] font-black uppercase tracking-tighter transition-all shadow-sm">
-                            <span class="mr-2">  <img src="assets/images/recu.png" class="w-4 h-4">  </span> Reçu
-                        </a>
-                    </td>
+           <td class="px-6 py-5 text-center">
+    <?php 
+    $m = strtoupper($p['methode_paiement'] ?? ''); 
+    if(!empty($m)): ?>
+        <span class="px-3 py-1 bg-slate-100 text-slate-800 text-[10px] font-black rounded-lg border border-slate-200">
+            <?= htmlspecialchars($m) ?>
+        </span>
+    <?php else: ?>
+        <span class="text-red-500 text-[10px] font-bold italic tracking-tighter">Erreur Saisie</span>
+    <?php endif; ?>
+           </td>
+                    <td class="px-2 py-1 text-center">
+    <a href="recu.php?id=<?= $p['id'] ?>" class="inline-flex items-center justify-center p-2 bg-teal-50/50 hover:bg-teal-600 rounded-lg transition-all group border border-teal-100">
+        <img src="assets/images/recu.png" class="w-5 h-5 object-contain group-hover:brightness-0 group-hover:invert">
+        <span class="ml-2 text-[8px] font-black text-teal-600 group-hover:text-white uppercase">Reçu</span>
+    </a>
+</td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>

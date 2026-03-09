@@ -14,6 +14,18 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute([$id_paiement]);
 $data = $stmt->fetch();
 
+// Exemple de ce qu'il faut mettre dans recu.php pour l'affichage
+$methode_enregistree = strtolower($paiement['methode_paiement']); // Force en minuscules
+
+if ($methode_enregistree == 'cash') {
+    echo "Paiement en Espèces";
+} elseif ($methode_enregistree == 'moncash') {
+    echo "Paiement via MonCash";
+} elseif ($methode_enregistree == 'natcash') {
+    echo "Paiement via Natcash"; // <--- Maintenant ça matchera
+} else {
+    echo "Autre méthode : " . $paiement['methode_paiement'];
+}
 if (!$data) die("Paiement introuvable.");
 ?>
 

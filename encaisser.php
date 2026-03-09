@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         </div>
 
-        <form action="" method="POST" class="space-y-8">
+       <form action="" method="POST" class="space-y-8">
     <div>
         <label class="block text-xs font-black text-teal-500 uppercase mb-3 tracking-widest">Adhérent & Contrat</label>
         <select name="id_souscription" required class="glass-input w-full px-5 py-4 rounded-2xl outline-none appearance-none cursor-pointer relative z-20">
@@ -122,37 +122,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div>
         <label class="block text-xs font-black text-teal-500 uppercase mb-4 tracking-widest">Mode de Règlement</label>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            
-            <div class="relative">
-                <input type="radio" name="methode" value="cash" id="pay_cash" checked class="peer hidden">
-                <label for="pay_cash" class="flex flex-col items-center justify-center p-4 rounded-2xl cursor-pointer text-white border border-white/10 bg-white/5 hover:bg-white/10 transition-all peer-checked:border-teal-300 peer-checked:bg-teal-500/20 peer-checked:ring-2 peer-checked:ring-teal-500/50">
-                    <span class="text-2xl mb-1"><img src="assets/images/1000HTG.png" class="w-10 h-10"></span>
-                    <span class="text-[10px] font-bold uppercase tracking-tighter">Cash</span>
-                </label>
-            </div>
-
-            <div class="relative">
-                <input type="radio" name="methode" value="moncash" id="pay_moncash" class="peer hidden">
-                <label for="pay_moncash" class="flex flex-col items-center justify-center p-4 rounded-2xl cursor-pointer text-white border border-white/10 bg-white/5 hover:bg-white/10 transition-all peer-checked:border-teal-300 peer-checked:bg-teal-500/20 peer-checked:ring-2 peer-checked:ring-teal-500/50">
-                    <span class="text-2xl mb-1"><img src="assets/images/Moncash.png" class="w-10 h-10"></span>
-                    <span class="text-[10px] font-bold uppercase tracking-tighter">MonCash</span>
-                </label>
-            </div>
-
-            <div class="relative">
-                <input type="radio" name="methode" value="natcash" id="pay_natcash" class="peer hidden">
-                <label for="pay_natcash" class="flex flex-col items-center justify-center p-4 rounded-2xl cursor-pointer text-white border border-white/10 bg-white/5 hover:bg-white/10 transition-all peer-checked:border-teal-300 peer-checked:bg-teal-500/20 peer-checked:ring-2 peer-checked:ring-teal-500/50">
-                    <span class="text-2xl mb-1"><img src="assets/images/Natcash.png" class="w-10 h-10"></span>
-                    <span class="text-[10px] font-bold uppercase tracking-tighter">Natcash</span>
-                </label>
-            </div>
-
+    <label class="relative cursor-pointer group">
+        <input type="radio" name="methode" value="CASH" checked class="peer sr-only">
+        <div class="flex flex-col items-center justify-center p-4 rounded-2xl text-white border border-white/10 bg-white/5 transition-all peer-checked:border-teal-300 peer-checked:bg-teal-500/20 peer-checked:ring-2 peer-checked:ring-teal-500/50">
+            <img src="assets/images/1000HTG.png" class="w-10 h-10 mb-2 pointer-events-none">
+            <span class="text-[10px] font-bold uppercase">Cash</span>
         </div>
+    </label>
+
+    <label class="relative cursor-pointer group">
+        <input type="radio" name="methode" value="MONCASH" class="peer sr-only">
+        <div class="flex flex-col items-center justify-center p-4 rounded-2xl text-white border border-white/10 bg-white/5 transition-all peer-checked:border-teal-300 peer-checked:bg-teal-500/20 peer-checked:ring-2 peer-checked:ring-teal-500/50">
+            <img src="assets/images/Moncash.png" class="w-10 h-10 mb-2 pointer-events-none">
+            <span class="text-[10px] font-bold uppercase">MonCash</span>
+        </div>
+    </label>
+
+    <label class="relative cursor-pointer group">
+        <input type="radio" name="methode" value="NATCASH" class="peer sr-only">
+        <div class="flex flex-col items-center justify-center p-4 rounded-2xl text-white border border-white/10 bg-white/5 transition-all peer-checked:border-teal-300 peer-checked:bg-teal-500/20 peer-checked:ring-2 peer-checked:ring-teal-500/50">
+            <img src="assets/images/Natcash.png" class="w-10 h-10 mb-2 pointer-events-none">
+            <span class="text-[10px] font-bold uppercase">NatCash</span>
+        </div>
+    </label>
+</div>
     </div>
 
-    <div class="pt-4">
-        <button type="submit" class="w-full bg-teal-500 hover:bg-teal-300 text-slate-900 font-black py-5 rounded-2xl transition-all duration-300 shadow-2xl shadow-emerald-500/30 transform hover:-translate-y-1 uppercase tracking-widest text-sm relative z-30">
-            Confirmer l'encaissement
-        </button>
-    </div>
+    <button type="submit" class="w-full bg-teal-500 hover:bg-teal-300 text-slate-900 font-black py-5 rounded-2xl transition-all duration-300 shadow-2xl uppercase tracking-widest text-sm relative z-30">
+        Confirmer l'encaissement
+    </button>
 </form>
