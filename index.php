@@ -13,7 +13,6 @@ function formatArgent($n) {
     return $n;
 }
 
-// 4. Calcul des statistiques
 try {
     $total_membres = $pdo->query("SELECT COUNT(*) FROM membres")->fetchColumn();
     $membres_actifs = $pdo->query("SELECT COUNT(*) FROM membres WHERE statut = 'actif'")->fetchColumn();
@@ -39,11 +38,11 @@ try {
         left: 0;
         width: 100%;
         height: 100%;
-        background-image: url('assets/images/background.png'); /* Assure-toi que le nom/chemin est correct */
+        background-image: url('assets/images/background.png'); 
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        transform: scale(1.1); /* Évite les bords blancs à cause du flou */
+        transform: scale(1.1); 
         z-index: -2;
     }
 
@@ -55,7 +54,7 @@ try {
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(15, 23, 42, 0.4); /* Teinte sombre semi-transparente */
+        background: rgba(15, 23, 42, 0.4); 
         z-index: -1;
     }
 
