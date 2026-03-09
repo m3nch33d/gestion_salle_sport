@@ -52,15 +52,6 @@ if (!isset($_SESSION['utilisateur_id'])) {
                 <span class="mr-3"><img src="assets/images/souscriptions.png" class="w-5 h-5"></span> Souscriptions
             </a>
 
-            <a href="coaches/liste_coaches.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'souscriptions.php' ? 'sidebar-active' : '' ?>">
-                <span class="mr-3"><img src="assets/images/coach.png" class="w-3 h-3"></span> Nos Coachs
-            </a>
-            
-            
-            <a href="seances/ajouter.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'ajouter.php' ? 'sidebar-active' : '' ?>">
-                <span class="mr-3"><img src="assets/images/planning.png" class="w-5 h-5"></span>Planifier séances
-            </a>
-
             <a href="scanner.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'scanner.php' ? 'sidebar-active' : '' ?>">
                 <span class="mr-3"><img src="assets/images/security.png" class="w-5 h-5"></span> Scanner Entrée
             </a>

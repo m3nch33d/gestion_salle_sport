@@ -50,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <div class="container mx-auto px-4 py-12 relative z-10">
     <div class="max-w-xl mx-auto glass-container p-10 shadow-2xl">
+        
         <div class="flex items-center mb-10">
             <div class="bg-emerald-500/20 p-4 rounded-2xl mr-5">
                 <img src="assets/images/bagmoney.png" class="w-8 h-8">
@@ -80,7 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div>
                 <label class="block text-xs font-black text-teal-500 uppercase mb-4 tracking-widest">Mode de Règlement</label>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    
                     <label class="relative cursor-pointer group">
                         <input type="radio" name="methode" value="CASH" checked class="peer sr-only">
                         <div class="flex flex-col items-center justify-center p-4 rounded-2xl text-white border border-white/10 bg-white/5 transition-all peer-checked:border-teal-300 peer-checked:bg-teal-500/20 peer-checked:ring-2 peer-checked:ring-teal-500/50">
@@ -97,17 +99,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                     </label>
 
-                    <label class="relative cursor-pointer group">
-                        <input type="radio" name="methode" value="NATCASH" class="peer sr-only">
-                        <div class="flex flex-col items-center justify-center p-4 rounded-2xl text-white border border-white/10 bg-white/5 transition-all peer-checked:border-teal-300 peer-checked:bg-teal-500/20 peer-checked:ring-2 peer-checked:ring-teal-500/50">
-                            <img src="assets/images/Natcash.png" class="w-10 h-10 mb-2 pointer-events-none">
-                            <span class="text-[10px] font-bold uppercase">NatCash</span>
-                        </div>
-                    </label>
                 </div>
             </div>
 
-            <button type="submit" class="w-full bg-teal-500 hover:bg-teal-300 text-slate-900 font-black py-5 rounded-2xl transition-all duration-300 shadow-2xl uppercase tracking-widest text-sm">
+            <button type="submit" class="w-full bg-teal-500 hover:bg-teal-300 text-slate-900 font-black py-5 rounded-2xl transition-all duration-300 shadow-2xl uppercase tracking-widest text-sm relative z-30">
                 Confirmer l'encaissement
             </button>
         </form>

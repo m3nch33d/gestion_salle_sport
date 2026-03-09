@@ -2,11 +2,7 @@
 include 'includes/header.php'; 
 require_once 'config/db.php';
 
-<<<<<<< HEAD
 // 1. Calcul du Total des paiements par mois (Année en cours)
-=======
-// 1. Calcul du Total des paiements par mois
->>>>>>> 7e8a91057e02ca00628d58e63ac6c9f2945e29bc
 $sql_mensuel = "SELECT MONTH(date_paiement) as mois, SUM(montant_paye) as total 
                 FROM paiements 
                 WHERE YEAR(date_paiement) = YEAR(CURDATE()) 
@@ -14,79 +10,19 @@ $sql_mensuel = "SELECT MONTH(date_paiement) as mois, SUM(montant_paye) as total
                 ORDER BY mois DESC";
 $rapport_mois = $pdo->query($sql_mensuel)->fetchAll();
 
-<<<<<<< HEAD
 // 2. Liste des impayés (Membres actifs SANS souscription valide aujourd'hui)
-=======
-// 2. Liste des impayés
->>>>>>> 7e8a91057e02ca00628d58e63ac6c9f2945e29bc
 $sql_impayes = "SELECT m.nom, m.prenom, m.telephone 
                 FROM membres m 
                 LEFT JOIN souscriptions s ON m.id = s.id_membre AND s.date_fin >= CURDATE()
                 WHERE s.id IS NULL AND m.statut = 'actif'";
 $impayes = $pdo->query($sql_impayes)->fetchAll();
 
-<<<<<<< HEAD
-// Tableau de correspondance pour les mois en français
-=======
->>>>>>> 7e8a91057e02ca00628d58e63ac6c9f2945e29bc
+// Correspondance pour les mois en français
 $nom_mois = [1=>"Janvier", 2=>"Février", 3=>"Mars", 4=>"Avril", 5=>"Mai", 6=>"Juin", 
              7=>"Juillet", 8=>"Août", 9=>"Septembre", 10=>"Octobre", 11=>"Novembre", 12=>"Décembre"];
 ?>
 
-<<<<<<< HEAD
-<div class="container bg-teal-100 rounded-[50px] mx-auto px-4 py-8 shadow-2xl">
-    <div class="mb-10 bg-teal-500 text-white p-6 rounded-[30px] shadow-lg">
-        <h1 class="text-4xl font-black text-gray-800 tracking-tighter italic uppercase">Rapport Financier <?= date('Y') ?></h1>
-        <p class="text-gray-500">Analyse des revenus et suivi des recouvrements.</p>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        <div class="lg:col-span-2 bg-white p-8 rounded-[30px] shadow-sm border border-gray-100">
-            <div class="flex items-center mb-6">
-                <span class="text-2xl mr-3">📈</span>
-                <h3 class="font-bold text-xl text-gray-800 uppercase tracking-tight">Revenus Mensuels</h3>
-            </div>
-            
-            <div class="space-y-4">
-                <?php foreach($rapport_mois as $r): ?>
-                    <div class="flex justify-between items-center p-4 bg-slate-50 rounded-2xl border-l-4 border-emerald-500">
-                        <span class="font-bold text-slate-600"><?= $nom_mois[$r['mois']] ?></span>
-                        <span class="text-xl font-black text-emerald-600"><?= number_format($r['total'], 2, '.', ' ') ?> <small class="text-xs">HTG</small></span>
-                    </div>
-                <?php endforeach; ?>
-                <?php if(empty($rapport_mois)): ?>
-                    <p class="text-center text-gray-400 py-10 italic">Aucun encaissement cette année.</p>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <div class="bg-white p-8 rounded-[30px] shadow-lg border-t-8 border-red-500">
-            <div class="flex items-center mb-6 text-red-600">
-                <span class="text-2xl mr-3">🚨</span>
-                <h3 class="font-bold text-xl uppercase tracking-tight">Impayés</h3>
-            </div>
-            
-            <p class="text-xs text-gray-400 mb-4 font-bold uppercase">Membres actifs sans abonnement valide :</p>
-            
-            <div class="space-y-3">
-                <?php foreach($impayes as $i): ?>
-                    <div class="p-4 bg-red-50 rounded-2xl border border-red-100">
-                        <p class="font-bold text-gray-800"><?= htmlspecialchars($i['nom'] . ' ' . $i['prenom']) ?></p>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-xs text-red-500 font-bold tracking-widest"><?= $i['telephone'] ?></span>
-                            <a href="tel:<?= $i['telephone'] ?>" class="bg-white p-2 rounded-full shadow-sm hover:scale-110 transition">📞</a>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-                <?php if(empty($impayes)): ?>
-                    <div class="text-center py-10 text-green-500 font-bold">
-                        ✅ Tout le monde est à jour !
-                    </div>
-                <?php endif; ?>
-=======
 <style>
-    /* 1. Reset & Fond Immersif (Gym & Finance) */
     body {
         margin: 0;
         background: url('assets/images/gymblanc.jpeg') no-repeat center center fixed;
@@ -95,7 +31,6 @@ $nom_mois = [1=>"Janvier", 2=>"Février", 3=>"Mars", 4=>"Avril", 5=>"Mai", 6=>"J
         color: #f8fafc;
     }
 
-    /* Overlay de profondeur (Gradient Radial) */
     body::before {
         content: "";
         position: fixed;
@@ -104,7 +39,6 @@ $nom_mois = [1=>"Janvier", 2=>"Février", 3=>"Mars", 4=>"Avril", 5=>"Mai", 6=>"J
         z-index: -1;
     }
 
-    /* 2. Conteneur "Neo-Glass" - Style 2026 */
     .dashboard-glass {
         background: rgba(15, 23, 42, 0.65) !important;
         backdrop-filter: blur(40px) saturate(180%);
@@ -114,21 +48,9 @@ $nom_mois = [1=>"Janvier", 2=>"Février", 3=>"Mars", 4=>"Avril", 5=>"Mai", 6=>"J
         box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.5);
     }
 
-    /* 3. Typographie Economique */
     .stat-value {
-        font-family: 'Monaco', 'Consolas', monospace; /* Look "Données bancaires" */
+        font-family: 'Monaco', 'Consolas', monospace;
         letter-spacing: -1px;
-    }
-
-    /* 4. Éléments de design 2026 */
-    .border-glow-teal {
-        border-left: 4px solid #2dd4bf;
-        background: linear-gradient(90deg, rgba(45, 212, 191, 0.1) 0%, transparent 100%);
-    }
-
-    .border-glow-red {
-        border-left: 4px solid #f43f5e;
-        background: linear-gradient(90deg, rgba(244, 63, 94, 0.1) 0%, transparent 100%);
     }
 
     .header-pill {
@@ -136,12 +58,6 @@ $nom_mois = [1=>"Janvier", 2=>"Février", 3=>"Mars", 4=>"Avril", 5=>"Mai", 6=>"J
         border: 1px solid rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px);
     }
-
-    a[href="export_finance.php"]:hover {
-    background-color: #2dd4bf !important; /* Teal 500 */
-    color: #0f172a !important;            /* Slate 900 */
-    transform: translateY(-2px);           /* Petit saut pour confirmer le hover */
-}
 </style>
 
 <div class="container mx-auto px-4 py-12">
@@ -167,15 +83,14 @@ $nom_mois = [1=>"Janvier", 2=>"Février", 3=>"Mars", 4=>"Avril", 5=>"Mai", 6=>"J
                         <span class="w-2 h-2 bg-teal-500 rounded-full mr-3 animate-pulse"></span>
                         Flux de Trésorerie Mensuel
                     </h3>
-                   <a href="export_finance.php" 
-   class="relative z-10 inline-block text-[10px] bg-white/10 hover:!bg-teal-500 hover:!text-slate-900 px-4 py-2 rounded-lg transition-all duration-300 border border-white/20 uppercase font-black cursor-pointer">
-    Exporter CSV
-</a>
+                    <a href="export_finance.php" class="text-[10px] bg-white/10 hover:bg-teal-500 hover:text-slate-900 px-4 py-2 rounded-lg transition-all border border-white/20 uppercase font-black">
+                        Exporter CSV
+                    </a>
                 </div>
 
                 <div class="grid grid-cols-1 gap-4">
                     <?php foreach($rapport_mois as $r): ?>
-                    <div class="group flex items-center justify-between p-6 rounded-2xl border border-white/5 hover:border-teal-500/30 transition-all duration-500 hover:bg-white/5">
+                    <div class="group flex items-center justify-between p-6 rounded-2xl border border-white/5 hover:border-teal-500/30 transition-all hover:bg-white/5">
                         <div class="flex items-center gap-6">
                             <div class="text-slate-500 font-mono text-sm"><?= sprintf("%02d", $r['mois']) ?></div>
                             <div class="text-xl font-bold tracking-tight text-slate-200 group-hover:text-teal-400 transition"><?= $nom_mois[$r['mois']] ?></div>
@@ -186,7 +101,6 @@ $nom_mois = [1=>"Janvier", 2=>"Février", 3=>"Mars", 4=>"Avril", 5=>"Mai", 6=>"J
                                 <?= number_format($r['total'], 0, '.', ' ') ?> 
                                 <span class="text-xs text-teal-500/50 ml-1">HTG</span>
                             </div>
-                            <div class="text-[9px] text-emerald-500 font-bold uppercase tracking-widest">+ 12.5% vs MoM</div>
                         </div>
                     </div>
                     <?php endforeach; ?>
@@ -222,13 +136,9 @@ $nom_mois = [1=>"Janvier", 2=>"Février", 3=>"Mars", 4=>"Avril", 5=>"Mai", 6=>"J
                 </div>
             </div>
 
-            <div class="bg-gradient-to-br from-teal-500 to-emerald-600 p-8 rounded-[30px] shadow-2xl shadow-teal-500/20">
+            <div class="bg-gradient-to-br from-teal-500 to-emerald-600 p-8 rounded-[30px] shadow-2xl">
                 <p class="text-white/70 text-[10px] font-black uppercase tracking-widest">Projection Annuelle</p>
                 <h4 class="text-3xl font-black text-white mt-2 stat-value">Est. 2.4M</h4>
-                <div class="mt-6 h-1 w-full bg-white/20 rounded-full overflow-hidden">
-                    <div class="h-full bg-white w-2/3"></div>
-                </div>
->>>>>>> 7e8a91057e02ca00628d58e63ac6c9f2945e29bc
             </div>
         </div>
     </div>

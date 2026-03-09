@@ -34,6 +34,24 @@ if (!$m) {
 include 'includes/header.php'; 
 ?>
 
+
+<style>
+    /* 1. Fond Immersif identique aux autres pages */
+    body {
+        margin: 0;
+        background: url('/gestion_salle_sport/assets/images/gymgris.jpeg') no-repeat center center fixed;
+        background-size: cover;
+    }
+
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(circle at center, rgba(15, 23, 42, 0.4) 0%, rgba(2, 6, 23, 0.9) 100%);
+        z-index: -1;
+    }
+</style>
+
 <div class="flex flex-col items-center justify-center p-6">
     <div class="bg-white p-10 rounded-[50px] shadow-2xl border border-slate-100 w-full max-w-md text-center">
         

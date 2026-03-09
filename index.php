@@ -38,7 +38,7 @@ try {
         left: 0;
         width: 100%;
         height: 100%;
-        background-image: url('assets/images/background.png'); 
+        background-image: url('assets/images/peoplegym.mp4'); 
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -58,9 +58,34 @@ try {
         z-index: -1;
     }
 
+
+    #video-bg {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        min-width: 100%;
+        min-height: 100%;
+        z-index: -2;
+        object-fit: cover;
+        filter: brightness(0.5); 
+    }
+
+    /* Overlay pour lisser le rendu */
+    .video-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.2);
+        z-index: -1;
+    }
+
     /* On rend le conteneur principal transparent pour voir le fond */
     main { background: transparent !important; }
 </style>
+
+<video autoplay muted loop playsinline id="video-bg">
+    <source src="assets/videos/background.mp4" type="video/mp4">
+</video>
+
 
 <div class="space-y-8 p-8 rounded-[30px] border-[8px] border-slate-900 shadow-2xl bg-slate-900/40 backdrop-blur-sm">
     <div class="flex justify-between border rounded-[20px] bg-teal-500 items-center shadow-lg">
@@ -119,7 +144,7 @@ try {
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div class="lg:col-span-2 bg-white/95 rounded-[40px] p-8 shadow-2xl border border-white/20">
-            <h3 class="text-xl font-black text-slate-800 mb-6 uppercase">Dernières inscriptions</h3>
+            <h3 class="text-xl font-black text-slate-800 mb-6 uppercase shadow-xl">Dernières inscriptions</h3>
             <div class="space-y-4">
                 <?php
                 $derniers = $pdo->query("SELECT * FROM membres ORDER BY id DESC LIMIT 5")->fetchAll();
