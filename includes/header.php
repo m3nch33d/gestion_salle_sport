@@ -8,6 +8,15 @@ if (!isset($_SESSION['utilisateur_id'])) {
     header("Location: login.php");
     exit();
 }
+
+function verifierAdmin() {
+    // Si l'utilisateur n'est pas connecté ou n'est pas 'Admin'
+    if (!isset($_SESSION['utilisateur_role']) || $_SESSION['utilisateur_role'] !== 'admin') {
+        // On le renvoie vers l'index avec un message d'erreur
+        header("Location: index.php?error=acces_refuse");
+        exit();
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -59,6 +68,16 @@ if (!isset($_SESSION['utilisateur_id'])) {
                 <span class="mr-3"><img src="assets/images/bagmoney.png" class="w-5 h-5"></span> Rapports Financiers
             </a>
         </nav>
+
+<?php if (isset($_SESSION['utilisateur_role']) && strtolower($_SESSION['utilisateur_role']) === 'admin'): ?>
+            <div class="px-4 mt-6 pt-6 border-t border-slate-800">
+                <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4 ml-2">Administration</p>
+                <a href="ajouter_utilisateur.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'ajouter_utilisateur.php' ? 'sidebar-active' : '' ?>">
+                    <span class="mr-3"><img src="assets/images/members.png" class="w-5 h-5 opacity-70"></span> Ajouter Staff
+                </a>
+            </div>
+        <?php endif; ?>
+
 
         <div class="p-4 border-t border-slate-800 shrink-0">
             <div class="flex items-center p-2 mb-4">

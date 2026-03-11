@@ -31,7 +31,7 @@ $label_methode = ($methode === 'moncash') ? "Paiement via MonCash" : "Paiement e
 <head>
     <meta charset="UTF-8">
     <title>Reçu Elite #<?= $data['id'] ?></title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="public/css/style.css">
     <style>
         /* Configuration de l'arrière-plan */
         body {

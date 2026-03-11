@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->execute([$email]);
     $utilisateur = $stmt->fetch();
 
+
     if ($utilisateur && password_verify($mot_de_passe, $utilisateur['mot_de_passe'])) {
         $_SESSION['utilisateur_id'] = $utilisateur['id'];
         $_SESSION['utilisateur_nom'] = $utilisateur['nom'];
@@ -30,7 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Login - Dechouke Grès Fitness</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+     <link rel="stylesheet" href="public/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
         body {
@@ -70,11 +72,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="flex w-full max-w-5xl h-[600px] shadow-2xl rounded-[40px] overflow-hidden login-card animate__animated animate__zoomIn">
         
         <div class="w-full md:w-1/2 p-12 flex flex-col justify-center">
-            <h1 class="text-5xl font-bold text-white mb-10 animate__animated animate__fadeInDown">Se connecter</h1>
+            <h1 class="text-5xl font-bold text-white mb-10 animate__animated animate__fadeInDown">Se connecter!</h1>
             
             <?php if($erreur): ?>
                 <div class="bg-red-900/40 text-red-400 p-4 rounded-2xl mb-6 text-sm border border-red-500/50 flex items-center animate__animated animate__shakeX">
-                    <span class="mr-2">⚠️</span> <?= $erreur ?>
+                    <span class="mr-2"><img src="assets/images/warning.png" alt="Warning" class="w-5 h-5"></span> <?= $erreur ?>
                 </div>
             <?php endif; ?>
 
@@ -93,14 +95,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </button>
             </form>
 
-            <div class="mt-8 text-center text-sm text-gray-400 animate__animated animate__fadeIn">
+            <div class="mt-8 text-right text-sm text-gray-400 animate__animated animate__fadeIn">
                 <a href="forgot_password.php" class="text-teal-400 font-bold hover:underline transition-colors hover:text-teal-200">Mot de passe oublié?</a>
             </div>
         </div>
 
         <div class="hidden md:flex w-1/2 flex-col justify-center items-center text-center p-12 relative bg-gradient-to-br from-teal-500/10 to-transparent border-l border-white/5">
-            <h2 class="text-6xl font-black text-white mb-4 tracking-tighter animate__animated animate__fadeInRight">ADMIN ONLY</h2>
-            <p class="text-teal-100/60 italic text-lg mb-10 animate__animated animate__fadeInRight" style="animation-delay: 0.5s;">Welcome back, Caleb & Boss.</p>
+            <h2 class="text-6xl font-black text-white mb-4 tracking-tighter animate__animated animate__fadeInRight">ADM seulement</h2>
+            <p class="text-teal-100/60 italic text-lg mb-10 animate__animated animate__fadeInRight" style="animation-delay: 0.5s;">Welcome back, Augustin & Célestin!</p>
             
             <img src="assets/images/wel_guy.png" 
                  alt="Coach" class="w-64 h-auto drop-shadow-[0_0_30px_rgba(20,184,166,0.3)] animate__animated animate__pulse animate__infinite animate__slow">

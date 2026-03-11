@@ -1,4 +1,5 @@
 <?php 
+require_once 'includes/securite.php';
 // 1. Inclure le header (qui gère déjà la session, la sécurité et la sidebar)
 include 'includes/header.php'; 
 
