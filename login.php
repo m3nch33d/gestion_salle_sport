@@ -30,7 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Login - Dechouke Grès Fitness</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="public/css/style.css">
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
         body {

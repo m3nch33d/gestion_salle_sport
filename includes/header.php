@@ -3,9 +3,12 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Protection globale : si pas connecté, retour au login
+// Jwenn chemen rasin pwojè a (Dynamic Base URL)
+$base_url = "/gestion_salle_sport/";
+
+// Protection globale
 if (!isset($_SESSION['utilisateur_id'])) {
-    header("Location: login.php");
+    header("Location: " . $base_url . "login.php");
     exit();
 }
 ?>
@@ -15,15 +18,13 @@ if (!isset($_SESSION['utilisateur_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dechouke Grès Fitness - Admin</title>
-    <link rel="stylesheet" href="public/css/style.css">
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <link rel="stylesheet" href="<?= $base_url ?>public/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .sidebar-link:hover { background-color: rgba(20, 184, 166, 0.1); color: #14b8a6; }
         .sidebar-active { background-color: #14b8a6 !important; color: white !important; box-shadow: 0 4px 14px 0 rgba(20, 184, 166, 0.39); }
-        
-        /* Personnalisation de la barre de défilement pour un look plus pro */
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
@@ -39,24 +40,29 @@ if (!isset($_SESSION['utilisateur_id'])) {
         </div>
 
         <nav class="flex-1 px-4 space-y-2 mt-4 overflow-y-auto custom-scrollbar">
-            <a href="index.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'index.php' ? 'sidebar-active' : '' ?>">
-                <span class="mr-3"><img src="assets/images/dashboard.png" class="w-5 h-5"></span> Dashboard
+            <a href="<?= $base_url ?>index.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'index.php' ? 'sidebar-active' : '' ?>">
+                <span class="mr-3"><img src="<?= $base_url ?>assets/images/dashboard.png" class="w-5 h-5"></span> Dashboard
             </a>
-            <a href="membres.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'membres.php' ? 'sidebar-active' : '' ?>">
-                <span class="mr-3"><img src="assets/images/members.png" class="w-5 h-5"></span> Membres
+            <a href="<?= $base_url ?>membres.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'membres.php' ? 'sidebar-active' : '' ?>">
+                <span class="mr-3"><img src="<?= $base_url ?>assets/images/members.png" class="w-5 h-5"></span> Membres
             </a>
-            <a href="abonnements.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'abonnements.php' ? 'sidebar-active' : '' ?>">
-                <span class="mr-3"><img src="assets/images/abonnement.png" class="w-5 h-5"></span> Abonnements
+            <a href="<?= $base_url ?>abonnements.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'abonnements.php' ? 'sidebar-active' : '' ?>">
+                <span class="mr-3"><img src="<?= $base_url ?>assets/images/abonnement.png" class="w-5 h-5"></span> Abonnements
             </a>
-            <a href="souscriptions.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'souscriptions.php' ? 'sidebar-active' : '' ?>">
-                <span class="mr-3"><img src="assets/images/souscriptions.png" class="w-5 h-5"></span> Souscriptions
+            <a href="<?= $base_url ?>souscriptions.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'souscriptions.php' ? 'sidebar-active' : '' ?>">
+                <span class="mr-3"><img src="<?= $base_url ?>assets/images/souscriptions.png" class="w-5 h-5"></span> Souscriptions
             </a>
-
-            <a href="scanner.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'scanner.php' ? 'sidebar-active' : '' ?>">
-                <span class="mr-3"><img src="assets/images/security.png" class="w-5 h-5"></span> Scanner Entrée
+            <a href="<?= $base_url ?>coaches/liste_coaches.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= strpos($_SERVER['PHP_SELF'], 'coaches') !== false ? 'sidebar-active' : '' ?>">
+                <span class="mr-3"><img src="<?= $base_url ?>assets/images/coach.png" class="w-5 h-5"></span> Coaches
             </a>
-            <a href="rapports.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'rapports.php' ? 'sidebar-active' : '' ?>">
-                <span class="mr-3"><img src="assets/images/bagmoney.png" class="w-5 h-5"></span> Rapports Financiers
+            <a href="<?= $base_url ?>horaires/liste_horaires.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= strpos($_SERVER['PHP_SELF'], 'horaires') !== false ? 'sidebar-active' : '' ?>">
+                <span class="mr-3">📅</span> Planning
+            </a>
+            <a href="<?= $base_url ?>scanner.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'scanner.php' ? 'sidebar-active' : '' ?>">
+                <span class="mr-3"><img src="<?= $base_url ?>assets/images/security.png" class="w-5 h-5"></span> Scanner Entrée
+            </a>
+            <a href="<?= $base_url ?>rapports.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'rapports.php' ? 'sidebar-active' : '' ?>">
+                <span class="mr-3"><img src="<?= $base_url ?>assets/images/bagmoney.png" class="w-5 h-5"></span> Rapports Financiers
             </a>
         </nav>
 
@@ -70,7 +76,7 @@ if (!isset($_SESSION['utilisateur_id'])) {
                     <p class="text-[10px] text-teal-400 uppercase font-black"><?= $_SESSION['utilisateur_role'] ?? 'Coach' ?></p>
                 </div>
             </div>
-            <a href="logout.php" class="block w-full text-center bg-slate-800 hover:bg-red-500/20 hover:text-red-400 text-xs py-2 rounded-lg transition font-bold border border-slate-700">
+            <a href="<?= $base_url ?>logout.php" class="block w-full text-center bg-slate-800 hover:bg-red-500/20 hover:text-red-400 text-xs py-2 rounded-lg transition font-bold border border-slate-700">
                 Déconnexion
             </a>
         </div>
