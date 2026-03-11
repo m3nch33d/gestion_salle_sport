@@ -1,5 +1,6 @@
 <?php 
 require_once 'config/db.php'; 
+require_once 'includes/securite.php';
 include 'includes/header.php'; 
 
 // 1. Récupérer les membres et les abonnements

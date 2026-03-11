@@ -1,5 +1,6 @@
 <?php 
 require_once 'config/db.php'; 
+require_once 'includes/securite.php';
 include 'includes/header.php'; 
 
 // 1. Récupérer les souscriptions
@@ -16,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $methode = $_POST['methode'];
 
     try {
-        $sql = "INSERT INTO paiements (id_souscription, montant_paye, methode_paiement) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO paiements (id_souscription, montant_paye, methode_paiement, date_paiement) VALUES (?, ?, ?, NOW())";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$id_souscription, $montant, $methode]);
         
@@ -49,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </style>
 
 <div class="container mx-auto px-4 py-12 relative z-10">
-    <div class="max-w-xl mx-auto glass-container p-10 shadow-2xl">
+    <div class="max-w-2xl mx-auto glass-container p-10 shadow-2xl">
         
         <div class="flex items-center mb-10">
             <div class="bg-emerald-500/20 p-4 rounded-2xl mr-5">
@@ -57,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <div>
                 <h2 class="text-3xl font-black text-white uppercase tracking-tighter">Encaisser</h2>
-                <p class="text-emerald-100/60 text-xs font-bold uppercase tracking-widest">Transaction sécurisée</p>
+                <p class="text-emerald-100/60 text-xs font-bold uppercase tracking-widest">Transaction sécurisée (Haiti)</p>
             </div>
         </div>
 

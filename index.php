@@ -93,6 +93,9 @@ try {
             <img src="assets/images/logogym.png" class="w-10 h-10 mx-auto mt-2">
         </div>
 
+
+
+
         <div class="p-3">
             <h2 class="text-3xl font-black text-slate-900 tracking-tight uppercase">Tableau de Bord</h2>
             <p class="text-slate-100 font-medium italic drop-shadow-sm">Content de vous revoir, <?= htmlspecialchars($_SESSION['utilisateur_nom']) ?> !</p>

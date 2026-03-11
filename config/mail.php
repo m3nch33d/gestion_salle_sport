@@ -3,7 +3,7 @@
 
 function envoyerEmailRecuperation($email_destinataire, $lien) {
     // Ta clé API Resend
-    $apiKey = 're_iSXyqnu3_Lq7W7fSXZewWeJPSBkuaUYVa'; 
+    $apiKey = 're_i9tz8of3_Ku3vnDXNgqnqXVHPvyaTWG8m';
 
     $data = [
         "from" => "Dechouke Fitness <onboarding@resend.dev>",
@@ -11,14 +11,17 @@ function envoyerEmailRecuperation($email_destinataire, $lien) {
         "subject" => "Réinitialisation de mot de passe",
         "html" => "
             <div style='font-family: sans-serif; border: 2px solid #14b8a6; padding: 25px; border-radius: 20px; background-color: #f8fafc;'>
-                <h2 style='color: #0f172a; margin-top: 0;'>Bonjour Coach,</h2>
-                <p style='color: #334155; font-size: 16px;'>Tu as demandé à réinitialiser ton mot de passe pour l'administration de <strong>Dechouke Fitness</strong>.</p>
+                <h2 style='color: #0f172a; margin-top: 0;'>Bonjour Adm,</h2>
+                <p style='color: #334155; font-size: 16px;'>Vous aviez demandé à réinitialiser votre mot de passe pour l'administration de <strong>Dechouké Fitness</strong>.</p>
                 <div style='text-align: center; margin: 30px 0;'>
-                    <a href='$lien' style='background-color: #14b8a6; color: white; padding: 15px 30px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 18px; display: inline-block;'>RÉINITIALISER MON MOT DE PASSE</a>
+                    <a href='$lien' style='background-color: #14b8a6; color: white; padding: 30px 30px; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 18px; display: inline-block;'>RÉINITIALISER MON MOT DE PASSE</a>
                 </div>
-                <p style='color: #ef4444; font-weight: bold;'>Attention : Ce lien expire dans exactement 2 minutes.</p>
-                <hr style='border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;'>
-                <p style='font-size: 12px; color: #94a3b8;'>Si tu n'es pas à l'origine de cette demande, ignore simplement cet e-mail.</p>
+                  <p style='color: #ff4f14; font-weight: bold;'>
+                       Attention : Ce lien expire dans exactement 2 minutes.⚠️
+                  </p>
+                       <hr style='border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;'>
+                       <p style='font-size: 12px; color: #94a3b8;'>Si tu n'es pas à l'origine de cette demande,
+                        ignore simplement cet e-mail.</p>
             </div>
         "
     ];
