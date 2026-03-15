@@ -47,45 +47,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             overflow-x: hidden;
         }
         .glass-card { 
-            background: rgba(15, 23, 42, 0.75); 
-            backdrop-filter: blur(16px); 
+            background: rgba(15, 23, 42, 0.85); 
+            backdrop-filter: blur(20px); 
             border: 1px solid rgba(255, 255, 255, 0.1); 
         }
         .input-field { 
-            background: rgba(30, 41, 59, 0.5); 
-            border: 1px solid rgba(71, 85, 105, 0.5); 
+            background: rgba(30, 41, 59, 0.6); 
+            border: 1px solid rgba(71, 85, 105, 0.4); 
             color: white; 
             transition: all 0.3s;
         }
         .input-field:focus {
             border-color: #2dd4bf;
-            background: rgba(30, 41, 59, 0.8);
+            background: rgba(30, 41, 59, 0.9);
+            box-shadow: 0 0 15px rgba(45, 212, 191, 0.2);
         }
-        .icon-mini { width: 16px; height: 16px; object-fit: contain; }
+        .icon-mini { width: 18px; height: 18px; object-fit: contain; filter: invert(1); }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
+<body class="min-h-screen flex items-center justify-center p-4">
 
-    <div id="main-content" class="glass-card w-full max-w-md lg:max-w-lg p-6 sm:p-8 rounded-[30px] sm:rounded-[35px] shadow-2xl animate__animated animate__fadeInUp">
+    <div id="main-content" class="glass-card w-full max-w-md p-6 sm:p-8 rounded-[2rem] shadow-2xl animate__animated animate__fadeInUp">
         
-        <div class="text-center mb-6 sm:mb-8">
+        <div class="text-center mb-6">
             <h1 class="text-2xl sm:text-3xl font-black text-white uppercase tracking-tighter italic">
                 Nouveau <span class="text-teal-400">Staff</span>
             </h1>
-            <p class="text-slate-400 text-[9px] sm:text-[10px] uppercase tracking-widest mt-1">Management System</p>
+            <p class="text-slate-400 text-[10px] uppercase tracking-widest mt-1">Management System</p>
         </div>
 
         <?php if ($notification === "success"): ?>
-            <div class="bg-teal-500/20 border border-teal-500 text-teal-200 p-4 rounded-2xl mb-6 text-xs sm:text-sm text-center animate__animated animate__pulse">
+            <div class="bg-teal-500/20 border border-teal-500 text-teal-200 p-4 rounded-2xl mb-6 text-xs text-center animate__animated animate__pulse">
                 ✅ Compte créé avec succès ! <br>
-                <span class="text-[10px] sm:text-[11px] opacity-80">Redirection vers l'accueil...</span>
+                <span class="text-[10px] opacity-80">Redirection vers l'accueil...</span>
             </div>
         <?php elseif ($notification === "duplicate"): ?>
-            <div class="bg-orange-500/20 border border-orange-500 text-orange-200 p-4 rounded-2xl mb-6 text-xs sm:text-sm text-center animate__animated animate__shakeX">
+            <div class="bg-orange-500/20 border border-orange-500 text-orange-200 p-4 rounded-2xl mb-6 text-xs text-center animate__animated animate__shakeX">
                 ⚠️ Cet email est déjà utilisé.
             </div>
         <?php elseif ($notification === "error"): ?>
-            <div class="bg-red-500/20 border border-red-500 text-red-200 p-4 rounded-2xl mb-6 text-xs sm:text-sm text-center">
+            <div class="bg-red-500/20 border border-red-500 text-red-200 p-4 rounded-2xl mb-6 text-xs text-center">
                 ❌ Erreur lors de l'enregistrement.
             </div>
         <?php endif; ?>
@@ -93,20 +94,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form id="staffForm" action="" method="POST" class="space-y-4">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <input type="text" name="nom" placeholder="NOM" required 
-                       class="input-field p-3.5 rounded-2xl outline-none text-sm font-bold uppercase w-full">
+                       class="input-field p-4 rounded-2xl outline-none text-sm font-bold uppercase w-full">
                 <input type="text" name="prenom" placeholder="PRÉNOM" required 
-                       class="input-field p-3.5 rounded-2xl outline-none text-sm font-bold uppercase w-full">
+                       class="input-field p-4 rounded-2xl outline-none text-sm font-bold uppercase w-full">
             </div>
 
             <input type="email" name="email" placeholder="ADRESSE EMAIL" required 
-                   class="w-full input-field p-3.5 rounded-2xl outline-none text-sm">
+                   class="w-full input-field p-4 rounded-2xl outline-none text-sm">
 
-            <div class="relative">
-                <label class="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase ml-2 mb-1 block tracking-widest">Mot de passe sécurisé (16 caractères)</label>
-                <div class="flex flex-row gap-2">
+            <div class="space-y-1">
+                <label class="text-[10px] font-bold text-slate-500 uppercase ml-2 block tracking-widest">Mot de passe (16 caractères)</label>
+                <div class="flex gap-2">
                     <div class="relative flex-1">
                         <input type="password" name="mot_de_passe" id="mdp_input" required 
-                               class="input-field w-full p-3.5 rounded-2xl outline-none font-mono text-xs pr-12">
+                               class="input-field w-full p-4 rounded-2xl outline-none font-mono text-xs pr-12">
                         <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 -translate-y-1/2 opacity-60 hover:opacity-100 transition">
                             <img src="assets/images/oeye.png" id="eye_icon" alt="Voir" class="icon-mini">
                         </button>
@@ -117,28 +118,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </div>
 
-            <div class="relative">
-                <label class="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase ml-2 mb-1 block tracking-widest">Niveau d'accès</label>
-                <select name="role" class="w-full input-field p-3.5 rounded-2xl outline-none appearance-none cursor-pointer text-sm font-bold">
-                    <option value="employe" class="bg-slate-900">Employé (Standard)</option>
-                    <option value="admin" class="bg-slate-900">Administrateur (Groupe B)</option>
+            <div class="space-y-1">
+                <label class="text-[10px] font-bold text-slate-500 uppercase ml-2 block tracking-widest">Niveau d'accès</label>
+                <select name="role" class="w-full input-field p-4 rounded-2xl outline-none cursor-pointer text-sm font-bold appearance-none bg-slate-800">
+                    <option value="employe">Employé (Standard)</option>
+                    <option value="admin">Administrateur</option>
                 </select>
             </div>
 
-            <button type="submit" id="submitBtn" class="w-full bg-teal-500 hover:bg-teal-400 text-slate-900 font-black py-4 rounded-2xl transition-all shadow-lg uppercase text-sm tracking-widest mt-4">
+            <button type="submit" id="submitBtn" class="w-full bg-teal-500 hover:bg-teal-400 text-slate-900 font-black py-4 rounded-2xl uppercase text-sm tracking-widest mt-4 transition-all active:scale-95">
                 Enregistrer le compte
             </button>
         </form>
     </div>
 
     <script>
-    <?php if ($notification === "success"): ?>
-    setTimeout(() => {
-        const container = document.getElementById('main-content');
-        container.classList.remove('animate__fadeInUp');
-        container.classList.add('animate__fadeOutDown');
-    }, 2500);
-    <?php endif; ?>
+    // Jenere yon modpas otomatik lè paj la chaje
+    window.onload = genererMDP;
 
     function genererMDP() {
         const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%";
@@ -152,12 +148,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     function togglePassword() {
         const input = document.getElementById('mdp_input');
         const icon = document.getElementById('eye_icon');
+        // Note: Asire w ou gen de imaj sa yo nan folder assets la
         if (input.type === "password") {
             input.type = "text";
-            icon.src = "assets/images/ceye.png";
+            icon.src = "assets/images/ceye.png"; // Imaj je fèmen
         } else {
             input.type = "password";
-            icon.src = "assets/images/oeye.png";
+            icon.src = "assets/images/oeye.png"; // Imaj je ouvè
         }
     }
 
@@ -167,7 +164,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         btn.classList.add('opacity-50', 'cursor-not-allowed');
     };
 
-    window.onload = genererMDP;
+    <?php if ($notification === "success"): ?>
+    setTimeout(() => {
+        const container = document.getElementById('main-content');
+        container.classList.remove('animate__fadeInUp');
+        container.classList.add('animate__fadeOutDown');
+    }, 2500);
+    <?php endif; ?>
     </script>
 </body>
 </html>

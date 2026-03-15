@@ -21,7 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 <style>
-    /* Fond Immersif (Match avec tes préférences visuelles) */
     body {
         margin: 0;
         background: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070') no-repeat center center fixed;
@@ -36,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         z-index: -1;
     }
 
-    /* Conteneur Glassmorphism - Bordures 40px */
     .glass-card {
         background: rgba(15, 23, 42, 0.65) !important;
         backdrop-filter: blur(40px) saturate(180%);
@@ -46,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.6);
     }
 
-    /* Inputs stylisés Teal */
     .input-glass {
         background: rgba(255, 255, 255, 0.08) !important;
         border: 1px solid rgba(255, 255, 255, 0.15) !important;
@@ -74,18 +71,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         letter-spacing: 0.1em;
         margin-left: 4px;
     }
+
+    /* Ajustement responsive du titre pour éviter les débordements */
+    @media (max-width: 640px) {
+        .title-responsive { font-size: 2.25rem !important; }
+        .glass-card { padding: 2rem !important; border-radius: 30px; }
+    }
 </style>
 
-<div class="container mx-auto px-4 py-12 relative z-10">
+<div class="container mx-auto px-4 py-8 md:py-12 relative z-10">
     
-    <div class="mb-10 text-center">
+    <div class="mb-6 md:mb-10 text-center">
         <span class="text-teal-400 font-bold uppercase tracking-[0.3em] text-[10px]">Profil du Membre</span>
-        <h1 class="text-5xl font-black tracking-tighter text-white mt-2 uppercase italic">
+        <h1 class="title-responsive text-4xl md:text-5xl font-black tracking-tighter text-white mt-2 uppercase italic leading-none">
             Modifier <span class="neon-text">Membre</span>
         </h1>
     </div>
 
-    <div class="max-w-2xl mx-auto glass-card p-10 md:p-14">
+    <div class="max-w-2xl mx-auto glass-card p-8 md:p-14">
         <form method="POST" class="space-y-6">
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -116,11 +119,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </select>
             </div>
 
-            <div class="pt-6 flex flex-col sm:flex-row gap-4">
-                <button type="submit" class="flex-1 bg-teal-500 hover:bg-teal-400 text-slate-900 font-black py-4 rounded-2xl transition-all shadow-xl shadow-teal-500/20 uppercase tracking-widest text-sm">
-                    Sauvegarder les changements
+            <div class="pt-6 flex flex-col md:flex-row gap-4">
+                <button type="submit" class="w-full bg-teal-500 hover:bg-teal-400 text-slate-900 font-black py-4 rounded-2xl transition-all shadow-xl shadow-teal-500/20 uppercase tracking-widest text-sm">
+                    Sauvegarder
                 </button>
-                <a href="membres.php" class="flex-1 bg-white/5 hover:bg-white/10 text-white border border-white/10 font-bold py-4 rounded-2xl transition-all text-center uppercase tracking-widest text-sm">
+                <a href="membres.php" class="w-full bg-white/5 hover:bg-white/10 text-white border border-white/10 font-bold py-4 rounded-2xl transition-all text-center uppercase tracking-widest text-sm">
                     Retour
                 </a>
             </div>

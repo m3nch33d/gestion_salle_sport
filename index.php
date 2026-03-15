@@ -7,23 +7,21 @@ require_once 'config/db.php';
 
 // 3. Fonction de formatage
 function formatArgent($n) {
-    if ($n >= 1000) {
-        return round($n / 1000, 1) . 'k';
-    }
+    if ($n >= 1000000) return round($n / 1000000, 1) . 'M';
+    if ($n >= 1000) return round($n / 1000, 1) . 'k';
     return $n;
 }
 
 try {
     $total_membres = $pdo->query("SELECT COUNT(*) FROM membres")->fetchColumn();
     $membres_actifs = $pdo->query("SELECT COUNT(*) FROM membres WHERE statut = 'actif'")->fetchColumn();
-    $recette_mois = $pdo->query("SELECT SUM(montant_paye) FROM paiements WHERE MONTH(date_paiement) = MONTH(CURDATE())")->fetchColumn() ?: 0;
+    $recette_mois = $pdo->query("SELECT SUM(montant_paye) FROM paiements WHERE MONTH(date_paiement) = MONTH(CURDATE()) AND YEAR(date_paiement) = YEAR(CURDATE())")->fetchColumn() ?: 0;
     $alertes_expiration = $pdo->query("SELECT COUNT(*) FROM souscriptions WHERE date_fin <= DATE_ADD(CURDATE(), INTERVAL 3 DAY) AND date_fin >= CURDATE()")->fetchColumn();
 } catch (Exception $e) {
     echo "Erreur SQL : " . $e->getMessage();
 }
 ?>
 
-<link rel="stylesheet" href="public/css/style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
 <style>
@@ -31,6 +29,7 @@ try {
         position: relative;
         min-height: 100vh;
         overflow-x: hidden;
+        font-family: 'Inter', sans-serif;
     }
 
     #video-bg {
@@ -48,12 +47,16 @@ try {
     .video-overlay {
         position: fixed;
         top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(15, 23, 42, 0.3);
+        background: radial-gradient(circle, rgba(15, 23, 42, 0.2) 0%, rgba(2, 6, 23, 0.7) 100%);
         z-index: -1;
     }
 
     /* On rend le conteneur principal transparent */
     main { background: transparent !important; }
+    
+    /* Conservation du design d'origine pour les cartes */
+    .stat-card { background: rgba(255, 255, 255, 0.95); transition: all 0.3s ease; }
+    .stat-card:hover { transform: translateY(-5px); }
 </style>
 
 <video autoplay muted loop playsinline id="video-bg">
@@ -61,123 +64,130 @@ try {
 </video>
 <div class="video-overlay"></div>
 
-<div class="space-y-8 p-8 rounded-[30px] border-[8px] border-slate-900 shadow-2xl bg-slate-900/40 backdrop-blur-sm animate__animated animate__fadeInUp">
+<div id="main-content" class="space-y-6 md:space-y-8 p-4 md:p-8 rounded-[24px] md:rounded-[40px] border-[8px] border-slate-900 shadow-2xl bg-slate-900/40 backdrop-blur-sm animate__animated animate__fadeInUp">
     
-    <div class="flex justify-between border rounded-[20px] bg-teal-500 items-center shadow-lg p-4">
+    <div class="flex flex-col md:flex-row justify-between bg-teal-500 rounded-[20px] items-start md:items-center shadow-lg p-5 md:p-6 gap-4">
         <div class="flex items-center space-x-4">
-            <div class="bg-white/20 p-2 rounded-xl">
+            <div class="bg-white/20 p-2 rounded-xl hidden md:block border border-white/30">
                 <img src="assets/images/logogym.png" class="w-10 h-10">
             </div>
             <div>
-                <h2 class="text-3xl font-black text-slate-900 tracking-tight uppercase">Tableau de Bord</h2>
-                <p class="text-slate-100 font-medium italic drop-shadow-sm">Content de vous revoir, <?= htmlspecialchars($_SESSION['utilisateur_nom']) ?> !</p>
+                <h2 class="text-2xl md:text-3xl font-black text-slate-900 tracking-tight uppercaseLeading-none">Dashboard</h2>
+                <p class="text-slate-100 text-sm font-medium italic">Salut, <?= htmlspecialchars($_SESSION['utilisateur_nom'] ?? 'Admin') ?> !</p>
             </div>
         </div>
         
-        <div class="text-right">
-            <p class="text-sm font-bold text-white uppercase tracking-widest"><?= date('d F Y') ?></p>
+        <div class="text-left md:text-right w-full md:w-auto border-t md:border-t-0 border-black/10 pt-3 md:pt-0">
+            <p class="text-xs md:text-sm font-bold text-white uppercase tracking-widest"><?= date('d F Y') ?></p>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="bg-white/95 p-6 rounded-[30px] shadow-xl border border-white/20 flex items-center space-x-4 transform hover:scale-105 transition duration-300">
-            <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center"><img src="assets/images/members.png" class="w-10 h-10"></div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div class="stat-card p-4 md:p-6 rounded-[24px] md:rounded-[30px] shadow-xl flex flex-col md:flex-row items-center md:space-x-4 text-center md:text-left">
+            <div class="w-10 h-10 md:w-14 md:h-14 bg-emerald-50 rounded-2xl flex items-center justify-center mb-2 md:mb-0 shadow-inner">
+                <img src="assets/images/members.png" class="w-7 h-7 md:w-10 md:h-10">
+            </div>
             <div>
-                <p class="text-slate-400 text-xs font-bold uppercase">Membres</p>
-                <p class="text-2xl font-black text-slate-800"><?= $total_membres ?></p>
+                <p class="text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wide">Membres</p>
+                <p class="text-xl md:text-2xl font-black text-slate-800 leading-tight"><?= $total_membres ?></p>
             </div>
         </div>
 
-        <div class="bg-white/95 p-6 rounded-[30px] shadow-xl border border-white/20 flex items-center space-x-4 transform hover:scale-105 transition duration-300">
-            <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center"><img src="assets/images/actif.png" class="w-10 h-10"></div>
+        <div class="stat-card p-4 md:p-6 rounded-[24px] md:rounded-[30px] shadow-xl flex flex-col md:flex-row items-center md:space-x-4 text-center md:text-left">
+            <div class="w-10 h-10 md:w-14 md:h-14 bg-emerald-50 rounded-2xl flex items-center justify-center mb-2 md:mb-0 shadow-inner">
+                <img src="assets/images/actif.png" class="w-7 h-7 md:w-10 md:h-10">
+            </div>
             <div>
-                <p class="text-slate-400 text-xs font-bold uppercase">Actifs</p>
-                <p class="text-2xl font-black text-slate-800"><?= $membres_actifs ?></p>
+                <p class="text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wide">Actifs</p>
+                <p class="text-xl md:text-2xl font-black text-teal-600 leading-tight"><?= $membres_actifs ?></p>
             </div>
         </div>
 
-        <div class="bg-white/95 p-6 rounded-[30px] shadow-xl border border-white/20 flex items-center space-x-4 transform hover:scale-105 transition duration-300">
-            <div class="w-14 h-14 bg-emerald-50 rounded-xl flex items-center justify-center">
-              <img src="assets/images/bagmoney.png" class="w-6 h-6">
+        <div class="stat-card p-4 md:p-6 rounded-[24px] md:rounded-[30px] shadow-xl flex flex-col md:flex-row items-center md:space-x-4 text-center md:text-left">
+            <div class="w-10 h-10 md:w-14 md:h-14 bg-emerald-50 rounded-xl flex items-center justify-center mb-2 md:mb-0 shadow-inner">
+              <img src="assets/images/bagmoney.png" class="w-5 h-5 md:w-7 md:h-7">
             </div>
             <div>
-                <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest">Recettes</p>
-                <p class="text-xl font-black text-slate-800">
+                <p class="text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wide">Recettes</p>
+                <p class="text-lg md:text-xl font-black text-slate-800 leading-tight">
                     <?= formatArgent($recette_mois) ?> 
                     <span class="text-[10px] opacity-50">HTG</span>
                 </p>
             </div>
         </div>
 
-        <div class="bg-white/95 p-6 rounded-[30px] shadow-xl border border-white/20 flex items-center space-x-4 transform hover:scale-105 transition duration-300">
-            <div class="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center"><img src="assets/images/warning.png" class="w-10 h-10"></div>
+        <div class="stat-card p-4 md:p-6 rounded-[24px] md:rounded-[30px] shadow-xl flex flex-col md:flex-row items-center md:space-x-4 text-center md:text-left">
+            <div class="w-10 h-10 md:w-14 md:h-14 bg-red-50 rounded-2xl flex items-center justify-center mb-2 md:mb-0 shadow-inner">
+                <img src="assets/images/warning.png" class="w-7 h-7 md:w-10 md:h-10">
+            </div>
             <div>
-                <p class="text-slate-400 text-xs font-bold uppercase">Alertes</p>
-                <p class="text-2xl font-black text-slate-800"><?= $alertes_expiration ?></p>
+                <p class="text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-wide">Alertes</p>
+                <p class="text-xl md:text-2xl font-black text-red-600 leading-tight"><?= $alertes_expiration ?></p>
             </div>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div class="lg:col-span-2 bg-white/95 rounded-[40px] p-8 shadow-2xl border border-white/20">
-            <h3 class="text-xl font-black text-slate-800 mb-6 uppercase">Dernières inscriptions</h3>
-            <div class="space-y-4">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
+        
+        <div class="lg:col-span-2 bg-white/95 rounded-[30px] md:rounded-[40px] p-6 md:p-8 shadow-2xl border border-white/10">
+            <h3 class="text-lg md:text-xl font-black text-slate-800 mb-6 uppercase tracking-tight">Dernières inscriptions</h3>
+            <div class="space-y-3">
                 <?php
                 $derniers = $pdo->query("SELECT * FROM membres ORDER BY id DESC LIMIT 5")->fetchAll();
                 foreach($derniers as $d): ?>
-                <div class="flex items-center justify-between p-4 rounded-2xl hover:bg-teal-100/70 transition-all duration-300 border border-transparent hover:border-slate-200">
-                    <div class="flex items-center space-x-4">
-                        <div class="w-10 h-10 bg-teal-500 rounded-full flex items-center justify-center font-bold text-white shadow-inner">
+                <div class="flex items-center justify-between p-3 md:p-4 rounded-2xl hover:bg-teal-50 transition-all border border-transparent hover:border-slate-100">
+                    <div class="flex items-center space-x-3 md:space-x-4">
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-teal-500 rounded-full flex items-center justify-center font-bold text-white text-xs shadow-inner">
                             <?= strtoupper(substr($d['nom'], 0, 1)) ?>
                         </div>
-                        <div>
-                            <p class="font-bold text-slate-800"><?= htmlspecialchars($d['nom'] . ' ' . $d['prenom']) ?></p>
-                            <p class="text-xs text-slate-400"><?= htmlspecialchars($d['email']) ?></p>
+                        <div class="overflow-hidden">
+                            <p class="font-bold text-slate-800 text-sm md:text-base truncate"><?= htmlspecialchars($d['nom'] . ' ' . $d['prenom']) ?></p>
+                            <p class="text-[10px] md:text-xs text-slate-400 truncate italic"><?= htmlspecialchars($d['email']) ?></p>
                         </div>
                     </div>
-                    <span class="text-xs font-black px-3 py-1 rounded-full bg-teal-100 text-teal-700">ACTIF</span>
+                    <span class="hidden sm:inline-block text-[10px] font-black px-3 py-1 rounded-full bg-teal-100 text-teal-700">ACTIF</span>
                 </div>
                 <?php endforeach; ?>
             </div>
         </div>
 
-        <div class="space-y-4">
-            <a href="ajouter_membre.php" class="block p-8 bg-teal-500 text-white rounded-[30px] shadow-lg hover:bg-teal-400 transition transform hover:-translate-y-2 group">
-                <div class="bg-white/20 w-12 h-12 rounded-2xl flex items-center justify-center mb-4 group-hover:rotate-12 transition">
-                    <img src="assets/images/add.png" class="w-8 h-8">
+        <div class="flex flex-col gap-4">
+            <a href="ajouter_membre.php" class="flex-1 p-6 md:p-8 bg-teal-500 text-slate-900 rounded-[24px] md:rounded-[30px] shadow-lg hover:bg-teal-400 transition transform hover:-translate-y-2 group">
+                <div class="bg-white/30 w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center mb-4 border border-white/30">
+                    <img src="assets/images/add.png" class="w-6 h-6 md:w-8 md:h-8">
                 </div>
-                <p class="font-black uppercase tracking-tighter">Nouveau Membre</p>
+                <p class="font-black uppercase tracking-tighter text-sm md:text-base leading-none">Nouveau Membre</p>
             </a>
-            <a href="scanner.php" class="block p-8 bg-slate-900 text-white rounded-[30px] shadow-lg hover:bg-slate-800 transition transform hover:-translate-y-2 border border-slate-700 group">
-                <div class="bg-white/10 w-12 h-12 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition">
-                    <img src="assets/images/security.png" class="w-8 h-8">
+            <a href="scanner.php" class="flex-1 p-6 md:p-8 bg-slate-900 text-white rounded-[24px] md:rounded-[30px] shadow-lg hover:bg-slate-800 transition transform hover:-translate-y-2 border border-slate-700 group">
+                <div class="bg-white/10 w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center mb-4 border border-white/20">
+                    <img src="assets/images/security.png" class="w-6 h-6 md:w-8 md:h-8">
                 </div>
-                <p class="font-black uppercase tracking-tighter">Scanner d'entrée</p>
+                <p class="font-black uppercase tracking-tighter text-sm md:text-base leading-none">Scanner d'entrée</p>
             </a>
         </div>
     </div>
 </div>
 
-</main> 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const mainContainer = document.querySelector('.animate__animated');
-
-    // On cible tous les liens vers d'autres pages
-    const links = document.querySelectorAll('a[href]:not([target="_blank"]):not([href^="#"])');
+    // On cible le conteneur principal par son ID
+    const mainContainer = document.getElementById('main-content');
+    
+    // On cible tous les liens internes vers d'autres pages
+    const links = document.querySelectorAll('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="tel:"])');
 
     links.forEach(link => {
         link.addEventListener('click', function(e) {
-            // On vérifie que c'est bien un lien interne
+            // Vérification que c'est bien un lien interne
             if (link.hostname === window.location.hostname) {
-                e.preventDefault(); // On bloque le départ immédiat
+                e.preventDefault(); // Bloque le départ immédiat
                 const destination = this.href;
 
-                // On lance l'animation de sortie
+                // Lance l'animation de sortie (fadeOut vers le bas)
                 mainContainer.classList.remove('animate__fadeInUp');
                 mainContainer.classList.add('animate__fadeOutDown');
 
-                // On change de page juste après l'animation (500ms environ)
+                // Change de page juste après l'animation (500ms)
                 setTimeout(() => {
                     window.location.href = destination;
                 }, 500);
@@ -186,5 +196,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
-</body> 
+
+</main> </body>
 </html>
