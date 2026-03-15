@@ -9,14 +9,12 @@ $status = "";
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_membre'])) {
     $id_membre = intval($_POST['id_membre']);
     
-    // 1. Vérifier si le membre existe et est actif
     $stmt = $pdo->prepare("SELECT * FROM membres WHERE id = ?");
     $stmt->execute([$id_membre]);
     $membre = $stmt->fetch();
 
     if ($membre) {
         if ($membre['statut'] == 'actif') {
-            // 2. Enregistrer la présence
             $ins = $pdo->prepare("INSERT INTO presences (id_membre, date_presence, heure_entree) VALUES (?, CURDATE(), CURTIME())");
             if ($ins->execute([$id_membre])) {
                 $message = "ENTRÉE VALIDÉE : " . $membre['prenom'] . " " . $membre['nom'];
@@ -33,8 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_membre'])) {
 }
 ?>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
 <style>
-    /* Configuration du fond de page avec image */
     body {
         margin: 0;
         background-image: url('assets/images/gymblanc.jpeg');
@@ -42,9 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_membre'])) {
         background-position: center;
         background-attachment: fixed;
         min-height: 100vh;
+        overflow: hidden; /* Empêche le scroll pendant l'animation */
     }
 
-    /* Overlay pour assombrir et flouter légèrement l'image de fond */
     body::before {
         content: "";
         position: fixed;
@@ -54,11 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_membre'])) {
         z-index: 0;
     }
 
-    /* Conteneur pour compenser la sidebar et centrer le contenu */
     .scanner-wrapper {
         position: relative;
         z-index: 10;
-        margin-left: 50px; /* Ajuste selon la largeur de ta sidebar */
         min-height: 100vh;
         display: flex;
         align-items: center;
@@ -66,7 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_membre'])) {
         padding: 20px;
     }
 
-    /* Effet Glass Morphism */
     .glass-card {
         background: rgba(15, 23, 42, 0.5) !important;
         backdrop-filter: blur(20px);
@@ -75,16 +71,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_membre'])) {
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
 
-    /* Champ de saisie style sombre transparent */
     .glass-input {
         background: rgba(0, 0, 0, 0.3) !important;
         border: 2px solid rgba(20, 184, 166, 0.2) !important;
         color: white !important;
     }
+    
+    main { background: transparent !important; }
 </style>
 
 <div class="scanner-wrapper">
-    <div class="glass-card p-10 rounded-[50px] w-full max-w-lg text-center animate__animated animate__zoomIn">
+    <div id="main-content" class="glass-card p-10 rounded-[50px] w-full max-w-lg text-center animate__animated animate__zoomIn">
         
         <div class="mb-8">
             <div class="flex justify-center mb-6">
@@ -99,14 +96,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_membre'])) {
         </div>
 
         <?php if ($message): ?>
-            <div class="mb-6 p-4 rounded-2xl font-bold text-sm <?= $status == 'success' ? 'bg-teal-500/20 text-teal-400 border border-teal-500/50' : 'bg-red-500/20 text-red-400 border border-red-500/50' ?>">
+            <div class="mb-6 p-4 rounded-2xl font-bold text-sm animate__animated animate__headShake <?= $status == 'success' ? 'bg-teal-500/20 text-teal-400 border border-teal-500/50' : 'bg-red-500/20 text-red-400 border border-red-500/50' ?>">
                 <?= $status == 'success' ? '✅' : '❌' ?> <?= $message ?>
             </div>
         <?php endif; ?>
 
         <form method="POST" class="space-y-6">
             <div class="relative">
-                <input type="number" name="id_membre" placeholder="Scanner ou tapez votre ID..." 
+                <input type="number" name="id_membre" id="id_membre" placeholder="Scanner ou tapez votre ID..." 
                        class="w-full glass-input p-5 rounded-3xl text-center text-base font-black outline-none transition-all focus:border-teal-500"
                        autofocus required>
             </div>
@@ -117,13 +114,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_membre'])) {
         </form>
 
         <div class="mt-8 pt-8 border-t border-white/10">
-             <img src="assets/images/historicity.png" class="w-8 h-8 inline-block ml-2">
+             <img src="assets/images/historicity.png" class="w-8 h-8 inline-block mr-2">
             <a href="presences.php" class="text-slate-400 hover:text-teal-400 font-bold text-xs uppercase tracking-widest transition">
                 Voir l'historique des entrées
             </a>
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const container = document.getElementById('main-content');
+    const inputField = document.getElementById('id_membre');
+
+    // Garde le focus sur l'input même après un clic ailleurs (pour le scanner)
+    document.addEventListener('click', () => inputField.focus());
+
+    // Animation de sortie vers le bas sur les liens
+    const links = document.querySelectorAll('a[href]:not([target="_blank"]):not([href^="#"])');
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (link.hostname === window.location.hostname) {
+                e.preventDefault();
+                const destination = this.href;
+                
+                container.classList.remove('animate__zoomIn');
+                container.classList.add('animate__fadeOutDown');
+                
+                setTimeout(() => {
+                    window.location.href = destination;
+                }, 500);
+            }
+        });
+    });
+});
+</script>
 
 </main>
 </body>

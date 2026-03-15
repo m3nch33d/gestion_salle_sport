@@ -1,61 +1,36 @@
 <?php 
 require_once 'includes/securite.php';
-// 1. Inclure le header (qui gère déjà la session, la sécurité et la sidebar)
 include 'includes/header.php'; 
-
-// 2. Connexion à la base de données
 require_once 'config/db.php'; 
 
-// 3. Récupération des membres
 $query = $pdo->query("SELECT * FROM membres ORDER BY id DESC");
 $membres = $query->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
 <style>
-    /* Fond vidéo plein écran */
-    body {
-        margin: 0;
-        overflow-x: hidden;
-    }
-
+    body { margin: 0; overflow-x: hidden; }
     #video-bg {
-        position: fixed;
-        right: 0;
-        bottom: 0;
-        min-width: 100%;
-        min-height: 100%;
-        z-index: -2;
-        object-fit: cover;
-        filter: brightness(0.5); 
+        position: fixed; right: 0; bottom: 0;
+        min-width: 100%; min-height: 100%;
+        z-index: -2; object-fit: cover; filter: brightness(0.5); 
     }
-
-    /* Overlay pour lisser le rendu */
     .video-overlay {
-        position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0, 0, 0, 0.2);
-        z-index: -1;
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.2); z-index: -1;
     }
-
-    /* CLASSE GLASSMORPHISM */
     .glass-effect {
         background: rgba(255, 255, 255, 0.1) !important;
         backdrop-filter: blur(15px) saturate(150%);
-        -webkit-backdrop-filter: blur(15px) saturate(150%);
         border: 1px solid rgba(255, 255, 255, 0.2) !important;
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
     }
-
-    /* Ajustement pour les textes sur le glassmorphism */
     .glass-text-container h2 { 
         color: #2dd4bf !important; 
         text-shadow: 0 0 15px rgba(45, 212, 191, 0.4); 
         font-weight: 900; 
-        letter-spacing: -0.02em; 
     }
-    .glass-text-container p { color: rgba(255, 255, 255, 0.7) !important; }
-
-    /* Bouton d'ajout style Verre/Teal */
     .btn-add-glass {
         background: rgba(20, 184, 166, 0.4) !important;
         backdrop-filter: blur(10px);
@@ -66,6 +41,7 @@ $membres = $query->fetchAll(PDO::FETCH_ASSOC);
         background: rgba(58, 233, 212, 0.6) !important;
         transform: scale(1.05);
     }
+    .table-container { background: rgba(255, 255, 255, 0.95); }
 </style>
 
 <video autoplay muted loop playsinline id="video-bg">
@@ -73,12 +49,12 @@ $membres = $query->fetchAll(PDO::FETCH_ASSOC);
 </video>
 <div class="video-overlay"></div>
 
-<div class="space-y-8 relative z-10 p-6">
+<div id="main-content" class="space-y-8 relative z-10 p-6 animate__animated animate__fadeInUp">
     
     <div class="flex justify-between items-center">
         <div class="p-6 rounded-[30px] glass-effect glass-text-container w-full max-w-xl mr-4">
-            <h2 class="text-3xl font-black text-slate-800 tracking-tight uppercase">Gestion des Adhérents</h2>
-            <p class="font-medium">Liste complète des membres de la salle</p>
+            <h2 class="text-3xl font-black tracking-tight uppercase">Gestion des Adhérents</h2>
+            <p class="font-medium text-white/70">Liste complète des membres de la salle</p>
         </div> 
 
         <a href="ajouter_membre.php" class="btn-add-glass px-8 py-4 rounded-[25px] font-black transition shadow-lg flex items-center transform">
@@ -87,10 +63,10 @@ $membres = $query->fetchAll(PDO::FETCH_ASSOC);
         </a>
     </div>
 
-    <div class="bg-white rounded-[40px] shadow-2xl border border-slate-100 overflow-hidden">
+    <div class="table-container rounded-[40px] shadow-2xl border border-slate-100 overflow-hidden">
         <table class="min-w-full">
             <thead>
-                <tr class="bg-slate-50 border-b border-slate-200 text-slate-400 text-left text-xs uppercase font-bold tracking-widest shadow-xl">
+                <tr class="bg-slate-50 border-b border-slate-200 text-slate-400 text-left text-xs uppercase font-bold tracking-widest">
                     <th class="px-6 py-5">Membre</th>
                     <th class="px-6 py-5">Téléphone</th>
                     <th class="px-6 py-5">Statut</th>
@@ -99,7 +75,7 @@ $membres = $query->fetchAll(PDO::FETCH_ASSOC);
             </thead>
             <tbody class="divide-y divide-slate-100">
                 <?php foreach ($membres as $m): ?>
-                    <tr class="hover:bg-teal-100/70 transition-colors duration-700 ease-in-out">
+                    <tr class="hover:bg-teal-100/70 transition-colors duration-500">
                         <td class="px-6 py-4">
                             <div class="flex items-center">
                                 <div class="h-10 w-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-700 font-bold">
@@ -136,14 +112,39 @@ $membres = $query->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div> 
 
-</main>
-
 <script>
+// 1. Script de confirmation avec sortie par le BAS
 function confirmerSuppression(id, nomComplet) {
     if (confirm("Êtes-vous sûr de vouloir supprimer \"" + nomComplet + "\" ?")) {
-        window.location.href = "supprimer_membre.php?id=" + id;
+        const container = document.getElementById('main-content');
+        container.classList.remove('animate__fadeInUp');
+        container.classList.add('animate__fadeOutDown');
+        setTimeout(() => {
+            window.location.href = "supprimer_membre.php?id=" + id;
+        }, 500);
     }
 }
+
+// 2. Script de transition de sortie par le BAS
+document.addEventListener("DOMContentLoaded", function() {
+    const container = document.getElementById('main-content');
+    const links = document.querySelectorAll('a[href]:not([target="_blank"]):not([href^="#"]):not([onclick])');
+
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (link.hostname === window.location.hostname) {
+                e.preventDefault();
+                const destination = this.href;
+                
+                // Animation de sortie vers le bas
+                container.classList.remove('animate__fadeInUp');
+                container.classList.add('animate__fadeOutDown');
+                
+                setTimeout(() => { window.location.href = destination; }, 500);
+            }
+        });
+    });
+});
 </script>
 </body>
 </html>

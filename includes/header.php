@@ -61,11 +61,11 @@ function verifierAdmin() {
             <a href="<?= $base_url ?>souscriptions.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'souscriptions.php' ? 'sidebar-active' : '' ?>">
                 <span class="mr-3"><img src="<?= $base_url ?>assets/images/souscriptions.png" class="w-5 h-5"></span> Souscriptions
             </a>
-            <a href="<?= $base_url ?>coaches/liste_coaches.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= strpos($_SERVER['PHP_SELF'], 'coaches') !== false ? 'sidebar-active' : '' ?>">
+            <a href="<?= $base_url ?>liste_coaches.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= strpos($_SERVER['PHP_SELF'], 'coaches') !== false ? 'sidebar-active' : '' ?>">
                 <span class="mr-3"><img src="<?= $base_url ?>assets/images/coach.png" class="w-5 h-5"></span> Coaches
             </a>
-            <a href="<?= $base_url ?>horaires/liste_horaires.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= strpos($_SERVER['PHP_SELF'], 'horaires') !== false ? 'sidebar-active' : '' ?>">
-                <span class="mr-3">📅</span> Planning
+            <a href="<?= $base_url ?>/liste_horaires.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= strpos($_SERVER['PHP_SELF'], 'horaires') !== false ? 'sidebar-active' : '' ?>">
+                <span class="mr-3"><img src="<?= $base_url ?>assets/images/planning.png" class="w-5 h-5"></span> Planning
             </a>
             <a href="<?= $base_url ?>scanner.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'scanner.php' ? 'sidebar-active' : '' ?>">
                 <span class="mr-3"><img src="<?= $base_url ?>assets/images/security.png" class="w-5 h-5"></span> Scanner Entrée
@@ -81,7 +81,16 @@ function verifierAdmin() {
                 <a href="ajouter_utilisateur.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold <?= basename($_SERVER['PHP_SELF']) == 'ajouter_utilisateur.php' ? 'sidebar-active' : '' ?>">
                     <span class="mr-3"><img src="assets/images/members.png" class="w-5 h-5 opacity-70"></span> Ajouter Staff
                 </a>
+
+                 <a href="liste_utilisateurs.php" class="sidebar-link flex items-center p-3 rounded-xl transition font-semibold">
+                    <span class="mr-3"><img src="assets/images/gestion.png" class="w-5 h-5"></span>Gérer le Staff
+                </a>
+
             </div>
+
+                
+
+
         <?php endif; ?>
 
 
