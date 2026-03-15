@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome - Dechouke Grès Fitness</title>
     <link rel="stylesheet" href="public/css/style.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/> -->
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Inter:wght@400;900&display=swap" rel="stylesheet">
     
     <style>
