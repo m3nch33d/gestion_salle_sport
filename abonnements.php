@@ -52,67 +52,76 @@ try {
     }
 
     main { background: transparent !important; }
+
+    /* Ajustements pour Mobile */
+    @media (max-width: 768px) {
+        .glass-title { padding: 15px 20px; text-align: center; width: 100%; }
+        .flex-header { flex-direction: column; gap: 1.5rem; }
+        .glass-btn-teal { width: 100%; justify-content: center; }
+    }
 </style>
 
-<div id="main-content" class="space-y-8 p-6 relative z-10 animate__animated animate__fadeInUp">
+<div id="main-content" class="space-y-8 p-4 md:p-6 relative z-10 animate__animated animate__fadeInUp">
     
-    <div class="flex justify-between items-center">
+    <div class="flex flex-header justify-between items-center">
         <div class="glass-title">
-            <h2 class="text-3xl font-black text-teal-300 tracking-tight uppercase">Suivi des Abonnements</h2>
-            <p class="text-white/60 font-medium italic">Historique des paiements et validité des accès</p>
+            <h2 class="text-2xl md:text-3xl font-black text-teal-300 tracking-tight uppercase">Suivi des Abonnements</h2>
+            <p class="text-white/60 text-xs md:text-sm font-medium italic">Historique des paiements et validité des accès</p>
         </div>
 
-        <a href="ajouter_abonnement.php" class="glass-btn-teal px-8 py-4 rounded-3xl font-black shadow-lg flex items-center transform">
-            <span class="mr-3"> <img src="assets/images/cc.png" class="w-8 h-8"> </span> 
+        <a href="ajouter_abonnement.php" class="glass-btn-teal px-6 md:px-8 py-4 rounded-3xl font-black shadow-lg flex items-center transform">
+            <span class="mr-3"> <img src="assets/images/cc.png" class="w-7 h-7 md:w-8 md:h-8"> </span> 
             Nouvel Abonnement
         </a>
     </div>
 
-    <div class="bg-white/95 rounded-[40px] shadow-xl border border-slate-200 overflow-hidden">
-        <table class="min-w-full">
-            <thead>
-                <tr class="bg-slate-50 border-b border-slate-200 text-slate-400 text-left text-xs uppercase font-bold tracking-widest shadow-xl">
-                    <th class="px-6 py-5">Membre</th>
-                    <th class="px-6 py-5">Date Début</th>
-                    <th class="px-6 py-5">Date Fin</th>
-                    <th class="px-6 py-5">Statut</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100">
-                <?php foreach ($abonnements as $a): 
-                    $expire = (strtotime($a['date_fin']) < time());
-                ?>
-                     <tr class="hover:bg-teal-100/70 transition-colors duration-500">
-                        <td class="px-6 py-5">
-                            <p class="text-slate-900 font-bold"><?= htmlspecialchars($a['nom'] . ' ' . $a['prenom']) ?></p>
-                        </td>
-                        <td class="px-6 py-5 text-sm text-slate-600">
-                            <?= date('d/m/Y', strtotime($a['date_debut'])) ?>
-                        </td>
-                        <td class="px-6 py-5 text-sm text-slate-600 font-bold">
-                            <?= date('d/m/Y', strtotime($a['date_fin'])) ?>
-                        </td>
-                        <td class="px-6 py-5">
-                            <span class="px-3 py-1 text-[10px] font-black uppercase rounded-full <?= $expire ? 'text-red-700 bg-red-100' : 'text-emerald-700 bg-emerald-100' ?>">
-                                <?= $expire ? 'Expiré' : 'Valide' ?>
-                            </span>
-                        </td>
+    <div class="bg-white/95 rounded-[30px] md:rounded-[40px] shadow-xl border border-slate-200 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-200 text-slate-400 text-left text-[10px] md:text-xs uppercase font-bold tracking-widest shadow-sm">
+                        <th class="px-6 py-5">Membre</th>
+                        <th class="px-6 py-5">Début</th>
+                        <th class="px-6 py-5">Fin</th>
+                        <th class="px-6 py-5">Statut</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    <?php foreach ($abonnements as $a): 
+                        $expire = (strtotime($a['date_fin']) < time());
+                    ?>
+                         <tr class="hover:bg-teal-50/70 transition-colors duration-500">
+                            <td class="px-6 py-5">
+                                <p class="text-slate-900 font-bold text-sm"><?= htmlspecialchars($a['nom'] . ' ' . $a['prenom']) ?></p>
+                            </td>
+                            <td class="px-6 py-5 text-xs md:text-sm text-slate-600">
+                                <?= date('d/m/Y', strtotime($a['date_debut'])) ?>
+                            </td>
+                            <td class="px-6 py-5 text-xs md:text-sm text-slate-600 font-bold">
+                                <?= date('d/m/Y', strtotime($a['date_fin'])) ?>
+                            </td>
+                            <td class="px-6 py-5">
+                                <span class="px-3 py-1 text-[9px] md:text-[10px] font-black uppercase rounded-full <?= $expire ? 'text-red-700 bg-red-100' : 'text-emerald-700 bg-emerald-100' ?>">
+                                    <?= $expire ? 'Expiré' : 'Valide' ?>
+                                </span>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
     
     <div class="mt-12 space-y-6">
         <div class="glass-title border-l-8 border-orange-400">
-           <h3 class="flex items-center gap-3 text-2xl font-black text-white uppercase tracking-tighter">
-             <img src="assets/images/bell.png" class="w-10 h-10 object-contain">
+           <h3 class="flex items-center gap-3 text-xl md:text-2xl font-black text-white uppercase tracking-tighter">
+             <img src="assets/images/bell.png" class="w-8 h-8 md:w-10 md:h-10 object-contain">
              <span>Alertes Relances (J-7)</span>
            </h3>
-           <p class="text-slate-300 text-sm italic mt-1 ml-9">Membres dont l'accès expire dans la semaine à venir</p>
+           <p class="text-slate-300 text-[10px] md:text-sm italic mt-1 ml-9">Membres dont l'accès expire bientôt</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             <?php 
             $alerte_trouvee = false;
             foreach ($abonnements as $a): 
@@ -127,14 +136,14 @@ try {
             ?>
                 <div class="glass-title bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300">
                     <div class="flex justify-between items-start mb-4">
-                        <span class="px-3 py-1 bg-orange-500/20 text-orange-400 text-[9px] font-black uppercase rounded-lg border border-orange-500/30">
+                        <span class="px-2 py-0.5 bg-orange-500/20 text-orange-400 text-[8px] md:text-[9px] font-black uppercase rounded-lg border border-orange-500/30">
                             Attention
                         </span>
                         <span class="text-white font-mono text-xs font-bold">J-<?= $jours_restants ?></span>
                     </div>
                     
-                    <h4 class="text-white font-bold text-lg uppercase"><?= htmlspecialchars($a['nom'] . ' ' . $a['prenom']) ?></h4>
-                    <p class="text-slate-400 text-xs mt-3">Date d'expiration : <br>
+                    <h4 class="text-white font-bold text-base md:text-lg uppercase"><?= htmlspecialchars($a['nom'] . ' ' . $a['prenom']) ?></h4>
+                    <p class="text-slate-400 text-[10px] md:text-xs mt-3">Date d'expiration : <br>
                         <span class="text-teal-300 font-black text-sm"><?= date('d/m/y', $date_fin_timestamp) ?></span>
                     </p>
                 </div>
@@ -142,7 +151,7 @@ try {
 
             if (!$alerte_trouvee): ?>
                 <div class="col-span-full p-10 text-center glass-title opacity-50">
-                    <p class="text-teal-300 italic text-sm">Aucune expiration prévue dans les 7 prochains jours.</p>
+                    <p class="text-teal-300 italic text-sm">Aucune expiration prévue prochainement.</p>
                 </div>
             <?php endif; ?>
         </div>
@@ -159,14 +168,9 @@ document.addEventListener("DOMContentLoaded", function() {
             if (link.hostname === window.location.hostname) {
                 e.preventDefault();
                 const destination = this.href;
-                
-                // Animation de sortie vers le bas
                 container.classList.remove('animate__fadeInUp');
                 container.classList.add('animate__fadeOutDown');
-                
-                setTimeout(() => {
-                    window.location.href = destination;
-                }, 500);
+                setTimeout(() => { window.location.href = destination; }, 500);
             }
         });
     });

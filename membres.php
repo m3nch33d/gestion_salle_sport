@@ -10,38 +10,29 @@ $membres = $query->fetchAll(PDO::FETCH_ASSOC);
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
 <style>
-    body { margin: 0; overflow-x: hidden; }
-    #video-bg {
-        position: fixed; right: 0; bottom: 0;
-        min-width: 100%; min-height: 100%;
-        z-index: -2; object-fit: cover; filter: brightness(0.5); 
+    body { margin: 0; overflow-x: hidden; font-family: 'Inter', sans-serif; }
+    #video-bg { position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%; z-index: -2; object-fit: cover; filter: brightness(0.4); }
+    .video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.3); z-index: -1; }
+    
+    /* Glassmorphism */
+    .glass-header { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    .glass-btn { background: rgba(45, 212, 191, 0.2); backdrop-filter: blur(10px); border: 1px solid rgba(45, 212, 191, 0.3); transition: all 0.3s ease; }
+    .glass-btn:hover { background: rgba(45, 212, 191, 0.5); transform: translateY(-2px); }
+
+    /* Table Responsive Hack */
+    @media (max-width: 768px) {
+        table, thead, tbody, th, td, tr { display: block; }
+        thead tr { position: absolute; top: -9999px; left: -9999px; }
+        tr { border: 1px solid rgba(255,255,255,0.1); background: white; border-radius: 20px; margin-bottom: 1.5rem; padding: 1rem; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        td { border: none; position: relative; padding-left: 40% !important; text-align: left !important; min-height: 40px; }
+        td:before { position: absolute; left: 1rem; width: 35%; font-weight: bold; font-size: 10px; color: #94a3b8; text-transform: uppercase; }
+        td:nth-of-type(1) { padding-left: 0 !important; margin-bottom: 1rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; }
+        td:nth-of-type(1):before { content: ""; }
+        td:nth-of-type(2):before { content: "📞 TEL"; }
+        td:nth-of-type(3):before { content: "⚡ STATUT"; }
+        td:nth-of-type(4) { text-align: center !important; padding-left: 0 !important; margin-top: 1rem; border-top: 1px solid #f1f5f9; padding-top: 1rem; }
+        td:nth-of-type(4):before { content: ""; }
     }
-    .video-overlay {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0, 0, 0, 0.2); z-index: -1;
-    }
-    .glass-effect {
-        background: rgba(255, 255, 255, 0.1) !important;
-        backdrop-filter: blur(15px) saturate(150%);
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-    }
-    .glass-text-container h2 { 
-        color: #2dd4bf !important; 
-        text-shadow: 0 0 15px rgba(45, 212, 191, 0.4); 
-        font-weight: 900; 
-    }
-    .btn-add-glass {
-        background: rgba(20, 184, 166, 0.4) !important;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        color: white !important;
-    }
-    .btn-add-glass:hover {
-        background: rgba(58, 233, 212, 0.6) !important;
-        transform: scale(1.05);
-    }
-    .table-container { background: rgba(255, 255, 255, 0.95); }
 </style>
 
 <video autoplay muted loop playsinline id="video-bg">
@@ -49,73 +40,76 @@ $membres = $query->fetchAll(PDO::FETCH_ASSOC);
 </video>
 <div class="video-overlay"></div>
 
-<div id="main-content" class="space-y-8 relative z-10 p-6 animate__animated animate__fadeInUp">
+<div id="main-content" class="container mx-auto space-y-6 md:space-y-8 p-4 md:p-8 animate__animated animate__fadeInUp">
     
-    <div class="flex justify-between items-center">
-        <div class="p-6 rounded-[30px] glass-effect glass-text-container w-full max-w-xl mr-4">
-            <h2 class="text-3xl font-black tracking-tight uppercase">Gestion des Adhérents</h2>
-            <p class="font-medium text-white/70">Liste complète des membres de la salle</p>
+    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+        <div class="p-6 md:p-8 rounded-[24px] md:rounded-[35px] glass-header w-full lg:max-w-2xl shadow-2xl">
+            <h2 class="text-2xl md:text-4xl font-black text-teal-400 uppercase tracking-tighter">Gestion des Adhérents</h2>
+            <p class="font-medium text-slate-300 text-sm md:text-base mt-1">Écosystème des membres Dechouke Grès</p>
         </div> 
 
-        <a href="ajouter_membre.php" class="btn-add-glass px-8 py-4 rounded-[25px] font-black transition shadow-lg flex items-center transform">
-            <span class="mr-3"> <img src="assets/images/add.png" class="w-8 h-8"> </span> 
+        <a href="ajouter_membre.php" class="glass-btn w-full lg:w-auto px-8 py-5 md:py-4 rounded-[20px] md:rounded-[25px] font-black text-white flex items-center justify-center shadow-xl">
+            <img src="assets/images/add.png" class="w-6 h-6 mr-3">
             Ajouter un membre
         </a>
     </div>
 
-    <div class="table-container rounded-[40px] shadow-2xl border border-slate-100 overflow-hidden">
+    <div class="md:bg-white md:rounded-[40px] shadow-2xl overflow-hidden border border-white/10">
         <table class="min-w-full">
-            <thead>
-                <tr class="bg-slate-50 border-b border-slate-200 text-slate-400 text-left text-xs uppercase font-bold tracking-widest">
-                    <th class="px-6 py-5">Membre</th>
-                    <th class="px-6 py-5">Téléphone</th>
-                    <th class="px-6 py-5">Statut</th>
-                    <th class="px-6 py-5 text-right">Actions</th>
+            <thead class="hidden md:table-header-group">
+                <tr class="bg-slate-50 border-b border-slate-200 text-slate-400 text-left text-[10px] uppercase font-black tracking-[0.2em]">
+                    <th class="px-8 py-6">Adhérent</th>
+                    <th class="px-8 py-6">Contact</th>
+                    <th class="px-8 py-6">État</th>
+                    <th class="px-8 py-6 text-right">Actions</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
                 <?php foreach ($membres as $m): ?>
-                    <tr class="hover:bg-teal-100/70 transition-colors duration-500">
-                        <td class="px-6 py-4">
+                    <tr class="hover:bg-teal-50 transition-all duration-300 group">
+                        <td class="px-4 md:px-8 py-4 md:py-6">
                             <div class="flex items-center">
-                                <div class="h-10 w-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-700 font-bold">
+                                <div class="h-10 w-10 md:h-12 md:w-12 rounded-full bg-teal-500 text-white flex items-center justify-center font-black shadow-lg">
                                     <?= strtoupper(substr($m['nom'] ?? '?', 0, 1)) ?>
                                 </div>
                                 <div class="ml-4">
-                                    <p class="text-slate-900 font-bold"><?= htmlspecialchars($m['nom'] . ' ' . $m['prenom']) ?></p>
-                                    <p class="text-slate-400 text-xs italic"><?= htmlspecialchars($m['email']) ?></p>
+                                    <p class="text-slate-900 font-black text-sm md:text-lg uppercase leading-tight"><?= htmlspecialchars($m['nom'] . ' ' . $m['prenom']) ?></p>
+                                    <p class="text-slate-400 text-[10px] md:text-xs italic truncate max-w-[150px] md:max-w-none"><?= htmlspecialchars($m['email']) ?></p>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 text-sm text-slate-600 font-medium"><?= htmlspecialchars($m['telephone']) ?></td>
-                        <td class="px-6 py-4">
-                            <span class="px-3 py-1 text-[10px] font-black uppercase rounded-full <?= $m['statut'] == 'actif' ? 'text-teal-700 bg-teal-100' : 'text-red-700 bg-red-100' ?>">
-                                <?= ucfirst($m['statut']) ?>
+                        <td class="px-4 md:px-8 py-4 md:py-6 text-sm font-bold text-slate-600">
+                            <?= htmlspecialchars($m['telephone']) ?>
+                        </td>
+                        <td class="px-4 md:px-8 py-4 md:py-6">
+                            <span class="px-4 py-1 text-[10px] font-black uppercase rounded-full <?= $m['statut'] == 'actif' ? 'text-teal-700 bg-teal-100' : 'text-rose-700 bg-rose-100' ?>">
+                                <?= $m['statut'] ?>
                             </span>
                         </td>
-                        <td class="px-6 py-4 text-right space-x-3 text-xs font-bold">
-                            <a href="modifier_membre.php?id=<?= $m['id'] ?>" class="text-orange-500 hover:underline">Modifier</a>
-                            <a href="carte.php?id=<?= $m['id'] ?>" class="text-teal-600 hover:underline">Carte</a>
-                            <a href="#" onclick="confirmerSuppression(<?= $m['id'] ?>, '<?= htmlspecialchars(addslashes($m['nom'])) ?>')" class="text-red-500 hover:underline">Supprimer</a>
-                        </td>
+                       <td class="px-6 py-4 text-right">
+    <div class="flex items-center justify-end gap-3 md:gap-4">
+        <a href="modifier_membre.php?id=<?= $m['id'] ?>" class="text-orange-500 font-black text-[10px] uppercase hover:text-orange-700 transition">Éditer</a>
+        <a href="carte.php?id=<?= $m['id'] ?>" class="text-teal-600 font-black text-[10px] uppercase hover:text-teal-800 transition">Carte</a>
+        <button onclick="confirmerSuppression(<?= $m['id'] ?>, '<?= htmlspecialchars(addslashes($m['nom'])) ?>')" class="text-rose-500 font-black text-[10px] uppercase hover:text-rose-700 transition">Supprimer</button>
+    </div>
+</td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div> 
 
-    <div class="flex justify-end mt-8">
-        <a href="presences.php" class="glass-effect text-white px-8 py-4 rounded-[25px] font-black transition shadow-lg flex items-center transform hover:scale-105">
-            <span class="mr-3"><img src="assets/images/souscriptions.png" class="w-8 h-8"></span> 
+    <div class="flex flex-col sm:flex-row justify-end gap-4 mt-8">
+        <a href="presences.php" class="glass-btn text-white px-8 py-5 rounded-[20px] font-black shadow-lg flex items-center justify-center">
+            <img src="assets/images/souscriptions.png" class="w-6 h-6 mr-3">
             Liste des présences
         </a>
     </div>
 </div> 
 
 <script>
-// 1. Script de confirmation avec sortie par le BAS
 function confirmerSuppression(id, nomComplet) {
-    if (confirm("Êtes-vous sûr de vouloir supprimer \"" + nomComplet + "\" ?")) {
+    if (confirm("Voulez-vous vraiment supprimer " + nomComplet + " ? Cette action est irréversible.")) {
         const container = document.getElementById('main-content');
         container.classList.remove('animate__fadeInUp');
         container.classList.add('animate__fadeOutDown');
@@ -125,7 +119,6 @@ function confirmerSuppression(id, nomComplet) {
     }
 }
 
-// 2. Script de transition de sortie par le BAS
 document.addEventListener("DOMContentLoaded", function() {
     const container = document.getElementById('main-content');
     const links = document.querySelectorAll('a[href]:not([target="_blank"]):not([href^="#"]):not([onclick])');
@@ -134,17 +127,12 @@ document.addEventListener("DOMContentLoaded", function() {
         link.addEventListener('click', function(e) {
             if (link.hostname === window.location.hostname) {
                 e.preventDefault();
-                const destination = this.href;
-                
-                // Animation de sortie vers le bas
+                const dest = this.href;
                 container.classList.remove('animate__fadeInUp');
                 container.classList.add('animate__fadeOutDown');
-                
-                setTimeout(() => { window.location.href = destination; }, 500);
+                setTimeout(() => { window.location.href = dest; }, 500);
             }
         });
     });
 });
 </script>
-</body>
-</html>
