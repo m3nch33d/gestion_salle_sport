@@ -1,6 +1,7 @@
 <?php 
 // 1. Nou soti nan dosye sa a pou n al chèche config ak header
 require_once 'config/db.php';
+require_once 'includes/securite.php';
 include 'includes/header.php'; 
 
 $message = "";

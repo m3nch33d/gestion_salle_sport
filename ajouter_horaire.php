@@ -60,20 +60,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 </style>
 
-<div class="p-4 md:p-8">
-    <div class="max-w-4xl mx-auto mb-10 bg-slate-800/40 backdrop-blur-md p-8 rounded-[30px] border border-white/10 shadow-2xl flex justify-between items-center">
+<div class="p-4 md:p-8 min-h-screen">
+    <div class="max-w-4xl mx-auto mb-6 md:mb-10 bg-slate-800/40 backdrop-blur-md p-6 md:p-8 rounded-[25px] md:rounded-[30px] border border-white/10 shadow-2xl flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
         <div>
-            <h1 class="text-3xl font-black text-white uppercase tracking-tighter">
+            <h1 class="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter">
                 Nouveau <span class="text-teal-400">Planning</span>
             </h1>
-            <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest">Saisie Groupée </p>
+            <p class="text-slate-400 text-[9px] md:text-[10px] font-black uppercase tracking-widest">Saisie Groupée </p>
         </div>
-        <a href="liste_horaires.php" class="text-teal-600 hover:text-white text-xs font-bold uppercase---- transition-colors">
+        <a href="liste_horaires.php" class="text-teal-400 hover:text-white text-xs font-bold uppercase transition-colors px-4 py-2 border border-teal-500/30 rounded-xl sm:border-none">
             ← Annuler
         </a>
     </div>
 
-    <div class="max-w-4xl mx-auto bg-white/5 backdrop-blur-xl p-10 rounded-[40px] border border-white/10 shadow-2xl">
+    <div class="max-w-4xl mx-auto bg-white/5 backdrop-blur-xl p-6 md:p-10 rounded-[30px] md:rounded-[40px] border border-white/10 shadow-2xl">
         
         <?php if($message): ?>
             <div class="bg-red-500/20 text-red-400 p-4 rounded-2xl mb-6 border border-red-500/30 text-sm font-bold">
@@ -81,12 +81,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         <?php endif; ?>
 
-        <form method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <form method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             
             <div class="md:col-span-2 space-y-2">
                 <label class="block text-teal-400 text-[10px] font-black uppercase ml-4 tracking-[0.2em]">Coach Responsable</label>
                 <select name="coach_id" required 
-                    class="w-full bg-slate-900/50 border border-white/10 rounded-2xl p-4 text-white focus:border-teal-500 outline-none transition-all">
+                    class="w-full bg-slate-900/50 border border-white/10 rounded-2xl p-4 text-white focus:border-teal-500 outline-none transition-all text-sm">
                     <option value="">-- Choisir le coach --</option>
                     <?php foreach($coaches as $c): ?>
                         <option value="<?= $c['id'] ?>"><?= htmlspecialchars($c['prenom'] . ' ' . $c['nom']) ?></option>
@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="md:col-span-2 space-y-2">
                 <label class="block text-teal-400 text-[10px] font-black uppercase ml-4 tracking-[0.2em]">Jours de Disponibilité (Ctrl + Clic)</label>
                 <select name="jour[]" multiple required 
-                   class="w-full bg-slate-900/50 border border-white/10 rounded-2xl p-4 text-white focus:border-teal-500 outline-none transition-all custom-scrollbar">
+                   class="w-full bg-slate-900/50 border border-white/10 rounded-2xl p-4 text-white focus:border-teal-500 outline-none transition-all custom-scrollbar text-sm">
                     <option value="Lundi">Lundi</option>
                     <option value="Mardi">Mardi</option>
                     <option value="Mercredi">Mercredi</option>
@@ -111,30 +111,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="space-y-2">
                 <label class="block text-teal-400 text-[10px] font-black uppercase ml-4 tracking-[0.2em]">Activité</label>
                 <input type="text" name="activite" placeholder="Ex: Musculation" required 
-                    class="w-full bg-slate-900/50 border border-white/10 rounded-2xl p-4 text-white focus:border-teal-500 outline-none transition-all">
+                    class="w-full bg-slate-900/50 border border-white/10 rounded-2xl p-4 text-white focus:border-teal-500 outline-none transition-all text-sm">
             </div>
 
             <div class="space-y-2">
                 <label class="block text-teal-400 text-[10px] font-black uppercase ml-4 tracking-[0.2em]">Capacité Max</label>
                 <input type="number" name="capacite" value="15" min="1" required 
-                    class="w-full bg-slate-900/50 border border-white/10 rounded-2xl p-4 text-white focus:border-teal-500 outline-none transition-all">
+                    class="w-full bg-slate-900/50 border border-white/10 rounded-2xl p-4 text-white focus:border-teal-500 outline-none transition-all text-sm">
             </div>
 
             <div class="space-y-2">
                 <label class="block text-teal-400 text-[10px] font-black uppercase ml-4 tracking-[0.2em]">Heure Début</label>
                 <input type="time" name="heure_debut" required 
-                    class="w-full bg-slate-900/50 border border-white/10 rounded-2xl p-4 text-white focus:border-teal-500 outline-none transition-all">
+                    class="w-full bg-slate-900/50 border border-white/10 rounded-2xl p-4 text-white focus:border-teal-500 outline-none transition-all text-sm">
             </div>
 
             <div class="space-y-2">
                 <label class="block text-teal-400 text-[10px] font-black uppercase ml-4 tracking-[0.2em]">Heure Fin</label>
                 <input type="time" name="heure_fin" required 
-                    class="w-full bg-slate-900/50 border border-white/10 rounded-2xl p-4 text-white focus:border-teal-500 outline-none transition-all">
+                    class="w-full bg-slate-900/50 border border-white/10 rounded-2xl p-4 text-white focus:border-teal-500 outline-none transition-all text-sm">
             </div>
 
             <div class="md:col-span-2 pt-4">
                 <button type="submit" 
-                    class="w-full bg-teal-500 hover:bg-teal-400 text-slate-900 font-black py-5 rounded-2xl uppercase tracking-[0.3em] transition-all transform hover:scale-[1.01] shadow-xl shadow-teal-500/20">
+                    class="w-full bg-teal-500 hover:bg-teal-400 text-slate-900 font-black py-4 md:py-5 rounded-2xl uppercase tracking-[0.2em] md:tracking-[0.3em] transition-all transform hover:scale-[1.01] shadow-xl shadow-teal-500/20 text-xs md:text-sm">
                     Enregistrer le planning
                 </button>
             </div>

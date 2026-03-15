@@ -1,4 +1,5 @@
 <?php 
+require_once 'includes/securite.php';
 require_once 'config/db.php';
 // Nou pa bezwen header.php isit la paske se yon operasyon baz de done sèlman
 

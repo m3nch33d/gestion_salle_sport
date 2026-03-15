@@ -1,4 +1,5 @@
 <?php 
+require_once 'includes/securite.php';
 require_once 'config/db.php';
 include 'includes/header.php'; 
 

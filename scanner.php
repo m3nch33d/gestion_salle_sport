@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_membre'])) {
 }
 ?>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
 <style>
@@ -41,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_membre'])) {
         background-position: center;
         background-attachment: fixed;
         min-height: 100vh;
-        overflow: hidden; /* Empêche le scroll pendant l'animation */
+        overflow-x: hidden; /* Evite scroll sou kote */
     }
 
     body::before {
@@ -60,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_membre'])) {
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 20px;
+        padding: 15px; /* Mwens padding sou bò pou mobil */
     }
 
     .glass-card {
@@ -69,6 +70,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_membre'])) {
         -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        width: 100%; /* Pran tout lajè a */
+    }
+
+    /* Ajisteman pou ti ekran */
+    @media (max-width: 640px) {
+        .glass-card {
+            padding: 30px 20px !important; /* Diminye padding anndan an */
+            border-radius: 35px !important; /* Yon ti jan mwens wonn sou mobil */
+        }
+        .glass-card h2 {
+            font-size: 1.5rem !important; /* Tèks pi piti */
+        }
+        .bg-teal-500\/20 {
+            padding: 15px !important;
+        }
+        .bg-teal-500\/20 img {
+            width: 60px !important;
+            height: 60px !important;
+        }
     }
 
     .glass-input {
@@ -81,41 +101,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_membre'])) {
 </style>
 
 <div class="scanner-wrapper">
-    <div id="main-content" class="glass-card p-10 rounded-[50px] w-full max-w-lg text-center animate__animated animate__zoomIn">
+    <div id="main-content" class="glass-card p-10 rounded-[50px] max-w-lg text-center animate__animated animate__zoomIn">
         
         <div class="mb-8">
             <div class="flex justify-center mb-6">
                 <div class="bg-teal-500/20 p-6 rounded-full border border-teal-500/40 shadow-lg shadow-teal-500/20">
-                    <img src="assets/images/cadenas.png" class="w-24 h-24 object-contain" alt="Cadenas">
+                    <img src="assets/images/cadenas.png" class="w-16 h-16 md:w-24 md:h-24 object-contain" alt="Cadenas">
                 </div>
             </div>
             
-            <h2 class="text-3xl font-black text-white uppercase tracking-tighter">Scanner d'Entrée</h2>
+            <h2 class="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter">Scanner d'Entrée</h2>
             <p class="text-teal-400 font-bold text-sm italic">Système de contrôle </p> 
             <p class="text-white font-bold text-sm opacity-80 uppercase mt-1">Dechouke Grès FITNESS</p>
         </div>
 
         <?php if ($message): ?>
-            <div class="mb-6 p-4 rounded-2xl font-bold text-sm animate__animated animate__headShake <?= $status == 'success' ? 'bg-teal-500/20 text-teal-400 border border-teal-500/50' : 'bg-red-500/20 text-red-400 border border-red-500/50' ?>">
+            <div class="mb-6 p-4 rounded-2xl font-bold text-xs md:text-sm animate__animated animate__headShake <?= $status == 'success' ? 'bg-teal-500/20 text-teal-400 border border-teal-500/50' : 'bg-red-500/20 text-red-400 border border-red-500/50' ?>">
                 <?= $status == 'success' ? '✅' : '❌' ?> <?= $message ?>
             </div>
         <?php endif; ?>
 
         <form method="POST" class="space-y-6">
             <div class="relative">
-                <input type="number" name="id_membre" id="id_membre" placeholder="Scanner ou tapez votre ID..." 
-                       class="w-full glass-input p-5 rounded-3xl text-center text-base font-black outline-none transition-all focus:border-teal-500"
+                <input type="number" name="id_membre" id="id_membre" placeholder="ID membre..." 
+                       class="w-full glass-input p-4 md:p-5 rounded-3xl text-center text-base font-black outline-none transition-all focus:border-teal-500"
                        autofocus required>
             </div>
             
-            <button type="submit" class="w-full bg-teal-500 hover:bg-teal-400 text-slate-900 font-black py-5 rounded-3xl transition transform hover:scale-[1.02] shadow-lg shadow-teal-500/20">
+            <button type="submit" class="w-full bg-teal-500 hover:bg-teal-400 text-slate-900 font-black py-4 md:py-5 rounded-3xl transition transform hover:scale-[1.02] shadow-lg shadow-teal-500/20">
                 VALIDER L'ACCÈS
             </button>
         </form>
 
         <div class="mt-8 pt-8 border-t border-white/10">
-             <img src="assets/images/historicity.png" class="w-8 h-8 inline-block mr-2">
-            <a href="presences.php" class="text-slate-400 hover:text-teal-400 font-bold text-xs uppercase tracking-widest transition">
+             <img src="assets/images/historicity.png" class="w-6 h-6 md:w-8 md:h-8 inline-block mr-2">
+            <a href="presences.php" class="text-slate-400 hover:text-teal-400 font-bold text-[10px] md:text-xs uppercase tracking-widest transition">
                 Voir l'historique des entrées
             </a>
         </div>

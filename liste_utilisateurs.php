@@ -12,7 +12,9 @@ $utilisateurs = $stmt->fetchAll();
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste Staff - Dechouke Grès</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="public/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
@@ -24,65 +26,72 @@ $utilisateurs = $stmt->fetchAll();
             background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px); 
             border: 1px solid rgba(255, 255, 255, 0.1); 
         }
+        /* Pour masquer la scrollbar tout en gardant le défilement sur mobile */
+        .overflow-x-auto::-webkit-scrollbar { display: none; }
+        .overflow-x-auto { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="min-h-screen p-8">
+<body class="min-h-screen p-4 md:p-8">
 
     <div class="max-w-6xl mx-auto">
-        <div class="flex justify-between items-center mb-10 animate__animated animate__fadeInDown">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-10 animate__animated animate__fadeInDown text-center md:text-left">
             <div>
-                <h1 class="text-4xl font-black text-white italic uppercase">Staff <span class="text-teal-400">Members</span></h1>
-                <p class="text-slate-400 text-xs tracking-[0.3em] uppercase mt-1">Gestion des accès</p>
+                <h1 class="text-3xl md:text-4xl font-black text-white italic uppercase">Staff <span class="text-teal-400">Members</span></h1>
+                <p class="text-slate-400 text-[10px] md:text-xs tracking-[0.3em] uppercase mt-1">Gestion des accès</p>
             </div>
-            <a href="ajouter_utilisateur.php" class="bg-teal-500 hover:bg-teal-400 text-slate-900 font-bold px-6 py-3 rounded-2xl transition-all shadow-lg text-sm uppercase">
-                <img src="assets/images/add.png" class="w-10 h-10">Ajouter un membre</span> 
+            <a href="ajouter_utilisateur.php" class="flex items-center gap-3 bg-teal-500 hover:bg-teal-400 text-slate-900 font-bold px-5 py-3 rounded-2xl transition-all shadow-lg text-xs md:text-sm uppercase whitespace-nowrap">
+                <img src="assets/images/add.png" class="w-6 h-6 md:w-8 md:h-8">
+                <span>Ajouter un membre</span> 
             </a>
         </div>
 
-
         <?php if (isset($_GET['msg']) && $_GET['msg'] === 'supprime'): ?>
-    <div class="bg-red-500/20 border border-red-500 text-red-200 p-4 rounded-2xl mb-6 text-sm text-center animate__animated animate__headShake">
-        🗑️ Le membre a été retiré du staff.
-    </div>
-<?php endif; ?>
+            <div class="bg-red-500/20 border border-red-500 text-red-200 p-4 rounded-2xl mb-6 text-sm text-center animate__animated animate__headShake">
+                🗑️ Le membre a été retiré du staff.
+            </div>
+        <?php endif; ?>
 
-        <div class="glass-panel rounded-[35px] overflow-hidden shadow-2xl animate__animated animate__fadeInUp">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-white/5 text-teal-400 text-[10px] uppercase tracking-widest">
-                        <th class="p-6">Identité</th>
-                        <th class="p-6">Email</th>
-                        <th class="p-6">Rôle / Niveau</th>
-                        <th class="p-6 text-center">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="text-slate-200 text-sm">
-                    <?php foreach ($utilisateurs as $user): ?>
-                    <tr class="border-t border-white/5 hover:bg-teal-100/30 transition-all duration-700 ease-in-out border border-transparent hover:border-teal-300">
-                        <td class="p-6">
-                            <span class="font-bold text-white uppercase"><?= htmlspecialchars($user['nom']) ?></span> 
-                            <?= htmlspecialchars($user['prenom']) ?>
-                        </td>
-                        <td class="p-6 text-slate-400 font-mono"><?= htmlspecialchars($user['email']) ?></td>
-                        <td class="p-6">
-                            <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase <?= $user['role'] === 'admin' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/50' : 'bg-blue-500/20 text-blue-400 border border-blue-500/50' ?>">
-                                <?= $user['role'] ?>
-                            </span>
-                        </td>
-                        <td class="p-6 flex justify-center gap-3">
-                            <a href="modifier_utilisateur.php?id=<?= $user['id'] ?>" class="hover:scale-110 transition">
-                                <img src="assets/images/oi.png" alt="Edit" class="w-10 h-10 opacity-70 hover:opacity-100">
-                            </a>
-                            <a href="supprimer_utilisateur.php?id=<?= $user['id'] ?>" 
-                               onclick="return confirm('Es-tu sûr de vouloir supprimer ce membre ?')" 
-                               class="hover:scale-110 transition">
-                                <img src="assets/images/trash.png" alt="Delete" class="w-10 h-10 opacity-70 hover:opacity-100">
-                            </a>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+        <div class="glass-panel rounded-[25px] md:rounded-[35px] overflow-hidden shadow-2xl animate__animated animate__fadeInUp">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse min-w-[600px]">
+                    <thead>
+                        <tr class="bg-white/5 text-teal-400 text-[9px] md:text-[10px] uppercase tracking-widest">
+                            <th class="p-4 md:p-6">Identité</th>
+                            <th class="p-4 md:p-6">Email</th>
+                            <th class="p-4 md:p-6">Rôle / Niveau</th>
+                            <th class="p-4 md:p-6 text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-slate-200 text-xs md:text-sm">
+                        <?php foreach ($utilisateurs as $user): ?>
+                        <tr class="border-t border-white/5 hover:bg-teal-100/10 transition-all duration-300">
+                            <td class="p-4 md:p-6">
+                                <span class="font-bold text-white uppercase block md:inline"><?= htmlspecialchars($user['nom']) ?></span> 
+                                <span class="opacity-80"><?= htmlspecialchars($user['prenom']) ?></span>
+                            </td>
+                            <td class="p-4 md:p-6 text-slate-400 font-mono text-[11px] md:text-sm">
+                                <?= htmlspecialchars($user['email']) ?>
+                            </td>
+                            <td class="p-4 md:p-6">
+                                <span class="px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-bold uppercase <?= $user['role'] === 'admin' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/50' : 'bg-blue-500/20 text-blue-400 border border-blue-500/50' ?>">
+                                    <?= htmlspecialchars($user['role']) ?>
+                                </span>
+                            </td>
+                            <td class="p-4 md:p-6 flex justify-center gap-2 md:gap-3">
+                                <a href="modifier_utilisateur.php?id=<?= $user['id'] ?>" class="hover:scale-110 transition shrink-0">
+                                    <img src="assets/images/oi.png" alt="Edit" class="w-8 h-8 md:w-10 md:h-10 opacity-70 hover:opacity-100">
+                                </a>
+                                <a href="supprimer_utilisateur.php?id=<?= $user['id'] ?>" 
+                                   onclick="return confirm('Es-tu sûr de vouloir supprimer ce membre ?')" 
+                                   class="hover:scale-110 transition shrink-0">
+                                    <img src="assets/images/trash.png" alt="Delete" class="w-8 h-8 md:w-10 md:h-10 opacity-70 hover:opacity-100">
+                                </a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

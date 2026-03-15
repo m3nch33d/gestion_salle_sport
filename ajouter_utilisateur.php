@@ -18,7 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute([$nom, $prenom, $email, $mdp_hash, $role]);
         
         $notification = "success";
-        // Redirection après 3s
         header("refresh:3;url=index.php"); 
         
     } catch (PDOException $e) {
@@ -65,46 +64,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .icon-mini { width: 16px; height: 16px; object-fit: contain; }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4">
+<body class="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
 
-    <div id="main-content" class="glass-card max-w-lg w-full p-8 rounded-[35px] shadow-2xl animate__animated animate__fadeInUp">
+    <div id="main-content" class="glass-card w-full max-w-md lg:max-w-lg p-6 sm:p-8 rounded-[30px] sm:rounded-[35px] shadow-2xl animate__animated animate__fadeInUp">
         
-        <div class="text-center mb-8">
-            <h1 class="text-3xl font-black text-white uppercase tracking-tighter italic">
+        <div class="text-center mb-6 sm:mb-8">
+            <h1 class="text-2xl sm:text-3xl font-black text-white uppercase tracking-tighter italic">
                 Nouveau <span class="text-teal-400">Staff</span>
             </h1>
-            <p class="text-slate-400 text-[10px] uppercase tracking-widest mt-1">Management System</p>
+            <p class="text-slate-400 text-[9px] sm:text-[10px] uppercase tracking-widest mt-1">Management System</p>
         </div>
 
         <?php if ($notification === "success"): ?>
-            <div class="bg-teal-500/20 border border-teal-500 text-teal-200 p-4 rounded-2xl mb-6 text-sm text-center animate__animated animate__pulse">
+            <div class="bg-teal-500/20 border border-teal-500 text-teal-200 p-4 rounded-2xl mb-6 text-xs sm:text-sm text-center animate__animated animate__pulse">
                 ✅ Compte créé avec succès ! <br>
-                <span class="text-[11px] opacity-80">Redirection vers l'accueil...</span>
+                <span class="text-[10px] sm:text-[11px] opacity-80">Redirection vers l'accueil...</span>
             </div>
         <?php elseif ($notification === "duplicate"): ?>
-            <div class="bg-orange-500/20 border border-orange-500 text-orange-200 p-4 rounded-2xl mb-6 text-sm text-center animate__animated animate__shakeX">
+            <div class="bg-orange-500/20 border border-orange-500 text-orange-200 p-4 rounded-2xl mb-6 text-xs sm:text-sm text-center animate__animated animate__shakeX">
                 ⚠️ Cet email est déjà utilisé.
             </div>
         <?php elseif ($notification === "error"): ?>
-            <div class="bg-red-500/20 border border-red-500 text-red-200 p-4 rounded-2xl mb-6 text-sm text-center">
+            <div class="bg-red-500/20 border border-red-500 text-red-200 p-4 rounded-2xl mb-6 text-xs sm:text-sm text-center">
                 ❌ Erreur lors de l'enregistrement.
             </div>
         <?php endif; ?>
 
         <form id="staffForm" action="" method="POST" class="space-y-4">
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <input type="text" name="nom" placeholder="NOM" required 
-                       class="input-field p-3.5 rounded-2xl outline-none text-sm font-bold uppercase">
+                       class="input-field p-3.5 rounded-2xl outline-none text-sm font-bold uppercase w-full">
                 <input type="text" name="prenom" placeholder="PRÉNOM" required 
-                       class="input-field p-3.5 rounded-2xl outline-none text-sm font-bold uppercase">
+                       class="input-field p-3.5 rounded-2xl outline-none text-sm font-bold uppercase w-full">
             </div>
 
             <input type="email" name="email" placeholder="ADRESSE EMAIL" required 
                    class="w-full input-field p-3.5 rounded-2xl outline-none text-sm">
 
             <div class="relative">
-                <label class="text-[10px] font-bold text-slate-500 uppercase ml-2 mb-1 block tracking-widest">Mot de passe sécurisé (16 caractères)</label>
-                <div class="flex gap-2">
+                <label class="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase ml-2 mb-1 block tracking-widest">Mot de passe sécurisé (16 caractères)</label>
+                <div class="flex flex-row gap-2">
                     <div class="relative flex-1">
                         <input type="password" name="mot_de_passe" id="mdp_input" required 
                                class="input-field w-full p-3.5 rounded-2xl outline-none font-mono text-xs pr-12">
@@ -112,14 +111,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <img src="assets/images/oeye.png" id="eye_icon" alt="Voir" class="icon-mini">
                         </button>
                     </div>
-                    <button type="button" onclick="genererMDP()" class="bg-slate-700 hover:bg-teal-500 text-white px-4 rounded-2xl transition flex items-center justify-center">
+                    <button type="button" onclick="genererMDP()" class="bg-slate-700 hover:bg-teal-500 text-white px-4 rounded-2xl transition flex items-center justify-center shrink-0">
                         <img src="assets/images/refresh.png" alt="Générer" class="icon-mini">
                     </button>
                 </div>
             </div>
 
             <div class="relative">
-                <label class="text-[10px] font-bold text-slate-500 uppercase ml-2 mb-1 block tracking-widest">Niveau d'accès</label>
+                <label class="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase ml-2 mb-1 block tracking-widest">Niveau d'accès</label>
                 <select name="role" class="w-full input-field p-3.5 rounded-2xl outline-none appearance-none cursor-pointer text-sm font-bold">
                     <option value="employe" class="bg-slate-900">Employé (Standard)</option>
                     <option value="admin" class="bg-slate-900">Administrateur (Groupe B)</option>
@@ -133,13 +132,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <script>
-    // Animation de sortie automatique si redirection PHP détectée
     <?php if ($notification === "success"): ?>
     setTimeout(() => {
         const container = document.getElementById('main-content');
         container.classList.remove('animate__fadeInUp');
         container.classList.add('animate__fadeOutDown');
-    }, 2500); // Se lance juste avant la redirection de 3s
+    }, 2500);
     <?php endif; ?>
 
     function genererMDP() {
@@ -163,7 +161,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Effet visuel au clic sur Enregistrer
     document.getElementById('staffForm').onsubmit = function() {
         const btn = document.getElementById('submitBtn');
         btn.innerHTML = "Traitement en cours...";

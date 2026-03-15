@@ -40,7 +40,7 @@ try {
         </div>
         
         <a href="ajouter_coach.php" class="bg-teal-400 hover:bg-teal-300 text-slate-900 font-black px-8 py-4 rounded-2xl shadow-lg transition-all transform hover:scale-105">
-            <span><img src="assets/images/add.png" class="w-5 h-5 mr-2">Oh NOUVEL ENTRAÎNEUR
+            <span><img src="assets/images/add.png" class="w-5 h-5 mr-2">NOUVEL ENTRAÎNEUR
         </a>
     </div>
 

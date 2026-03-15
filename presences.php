@@ -17,6 +17,8 @@ try {
 }
 ?>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
     /* Configuration du background avec l'image demandée */
     body {
@@ -26,6 +28,7 @@ try {
         background-position: center;
         background-attachment: fixed;
         min-height: 100vh;
+        overflow-x: hidden;
     }
 
     /* Overlay pour assombrir et flouter légèrement */
@@ -48,14 +51,40 @@ try {
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
     }
 
+    /* Ajisteman tit pou mobil */
+    @media (max-width: 768px) {
+        .glass-title-box {
+            padding: 15px 25px;
+            width: 100%;
+            text-align: center;
+        }
+        .glass-title-box h2 {
+            font-size: 1.5rem !important;
+        }
+    }
+
     /* Couleur vive Teal pour le titre */
     .glass-title-box h2 {
         color: #2dd4bf !important; 
         text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
+
+    /* Rann tablo a responsive san kache kolòn */
+    .table-container {
+        background: white;
+        border-radius: 40px;
+        overflow-x: auto; /* Pèmèt glise sou kote sou mobil */
+        -webkit-overflow-scrolling: touch;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    table {
+        min-width: 600px; /* Lajè minimòm pou tablo a pa janm kraze */
+        width: 100%;
+    }
 </style>
 
-<div class="space-y-8 relative z-10 p-6">
+<div class="space-y-8 relative z-10 p-4 md:p-6">
     
     <div class="flex flex-col md:flex-row justify-between items-center gap-4">
         <div class="glass-title-box">
@@ -67,7 +96,7 @@ try {
         </div>
     </div>
 
-    <div class="bg-white rounded-[40px] shadow-2xl border border-slate-100 overflow-hidden">
+    <div class="table-container shadow-2xl border border-slate-100">
         <table class="min-w-full">
             <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-slate-400 text-left text-xs uppercase font-bold tracking-widest shadow-xl">
@@ -104,3 +133,7 @@ try {
         </table>
     </div>
 </div>
+
+</main>
+</body>
+</html>
