@@ -1,6 +1,6 @@
 <?php 
-include 'includes/header.php';
 require_once 'includes/securite.php'; 
+include 'includes/header.php';
 require_once 'config/db.php';
 
 // 1. Calcul du Total des paiements par mois (Année en cours)
