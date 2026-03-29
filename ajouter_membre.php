@@ -12,12 +12,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $date_naissance = $_POST['date_naissance'];
     
+    // --- MODIFICATION ICI : Gestion de la photo ---
     $photo = "default.png";
     if (!empty($_FILES['photo']['name'])) {
-        $photo = time() . '_' . $_FILES['photo']['name'];
-        if(!is_dir('public/uploads/')) { mkdir('public/uploads/', 0777, true); }
-        move_uploaded_file($_FILES['photo']['tmp_name'], 'public/uploads/' . $photo);
+        $upload_dir = 'assets/uploads/'; // Dossier standard pour ton projet
+        if(!is_dir($upload_dir)) { mkdir($upload_dir, 0777, true); }
+        
+        $extension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
+        $photo = time() . '_' . uniqid() . '.' . $extension; // Nom unique pour éviter les conflits
+        
+        move_uploaded_file($_FILES['photo']['tmp_name'], $upload_dir . $photo);
     }
+    // ----------------------------------------------
 
     try {
         $sql = "INSERT INTO membres (nom, prenom, telephone, email, date_naissance, photo) 

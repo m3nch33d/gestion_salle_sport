@@ -3,30 +3,35 @@ require_once 'includes/securite.php';
 include 'includes/header.php';
 require_once 'config/db.php';
 
-// 1. Calcul Trésorerie Mensuelle
+// 1. Flux de Trésorerie Mensuel
 $sql_mensuel = "SELECT MONTH(date_paiement) as mois, SUM(montant_paye) as total 
                 FROM paiements WHERE YEAR(date_paiement) = YEAR(CURDATE()) 
                 GROUP BY MONTH(date_paiement) ORDER BY mois DESC";
 $rapport_mois = $pdo->query($sql_mensuel)->fetchAll();
 
-// 2. Calcul Projection Annuelle
+// 2. Projection Annuelle
 $total_cumule = 0;
 foreach($rapport_mois as $r) { $total_cumule += $r['total']; }
 $nb_mois = count($rapport_mois);
+$projection_format = ($nb_mois > 0) ? number_format(($total_cumule / $nb_mois) * 12 / 1000, 0) . 'K' : '0 HTG';
 
-if ($nb_mois > 0) {
-    $projection = ($total_cumule / $nb_mois) * 12;
-    $projection_format = ($projection >= 1000000) ? number_format($projection / 1000000, 1) . 'M' : number_format($projection / 1000, 0) . 'K';
-} else {
-    $projection_format = '0 HTG';
-}
+// 3. LOGIQUE DES ALERTES ET IMPAYÉS
 
-// 3. Liste des impayés (Membres actifs sans souscription valide)
-$sql_impayes = "SELECT m.nom, m.prenom, m.telephone 
+// A. Les Impayés (Déjà expirés ou sans souscription)
+// A. Les Impayés (Ajout de m.id)
+$sql_impayes = "SELECT m.id, m.nom, m.prenom, m.email, m.telephone 
                 FROM membres m 
                 LEFT JOIN souscriptions s ON m.id = s.id_membre AND s.date_fin >= CURDATE()
                 WHERE s.id IS NULL AND m.statut = 'actif'";
 $impayes = $pdo->query($sql_impayes)->fetchAll();
+
+// B. Les Alertes (Ajout de m.id)
+$sql_alertes = "SELECT m.id, m.nom, m.prenom, m.email, s.date_fin 
+                FROM membres m 
+                JOIN souscriptions s ON m.id = s.id_membre 
+                WHERE s.date_fin BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 5 DAY)
+                AND m.statut = 'actif'";
+$alertes = $pdo->query($sql_alertes)->fetchAll();
 
 $nom_mois = [1=>"Janvier", 2=>"Février", 3=>"Mars", 4=>"Avril", 5=>"Mai", 6=>"Juin", 
              7=>"Juillet", 8=>"Août", 9=>"Septembre", 10=>"Octobre", 11=>"Novembre", 12=>"Décembre"];
@@ -36,63 +41,41 @@ $nom_mois = [1=>"Janvier", 2=>"Février", 3=>"Mars", 4=>"Avril", 5=>"Mai", 6=>"J
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
 <style>
-    body {
-        background: url('assets/images/gymblanc.jpeg') no-repeat center center fixed;
-        background-size: cover;
-        color: #f8fafc;
-    }
-    body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background: radial-gradient(circle at center, rgba(15, 23, 42, 0.4) 0%, rgba(2, 6, 23, 0.85) 100%);
-        z-index: -1;
-    }
-    .dashboard-glass {
-        background: rgba(15, 23, 42, 0.65) !important;
-        backdrop-filter: blur(40px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 24px;
-    }
+    body { background: url('assets/images/gymblanc.jpeg') no-repeat center center fixed; background-size: cover; color: #f8fafc; }
+    body::before { content: ""; position: fixed; inset: 0; background: radial-gradient(circle at center, rgba(15, 23, 42, 0.4) 0%, rgba(2, 6, 23, 0.85) 100%); z-index: -1; }
+    .dashboard-glass { background: rgba(15, 23, 42, 0.65) !important; backdrop-filter: blur(40px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
     .stat-value { font-family: 'Monaco', monospace; }
     .custom-scrollbar::-webkit-scrollbar { width: 4px; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
     main { background: transparent !important; }
 </style>
 
-<div id="main-content" class="container mx-auto px-4 py-8 md:py-12 animate__animated animate__fadeInUp">
+<div id="main-content" class="container mx-auto px-4 py-8 animate__animated animate__fadeInUp">
     
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-12 gap-6">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
         <div>
-            <span class="text-teal-400 font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs">Système d'analyse 4.0</span>
-            <h1 class="text-3xl md:text-5xl font-black text-white mt-2 uppercase tracking-tighter">
-                Rapport <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-400">Financier</span>
-            </h1>
+            <span class="text-teal-400 font-bold uppercase tracking-[0.3em] text-[10px]">Analyse de Performance</span>
+            <h1 class="text-4xl font-black text-white mt-2 uppercase tracking-tighter">Rapport <span class="text-teal-400">Financier</span></h1>
+            <?php if (isset($_GET['msg']) && $_GET['msg'] == 'success'): ?>
+    <div class="bg-emerald-500/20 border border-emerald-500/50 text-emerald-400 p-4 rounded-xl mb-6 animate__animated animate__fadeIn">
+        ✅ L'email de rappel a été envoyé avec succès au membre.
+    </div>
+<?php endif; ?>
         </div>
-        <a href="export_finance.php" target="_blank" class="w-full md:w-auto text-center bg-white/10 hover:bg-teal-500 hover:text-slate-900 px-6 py-4 md:py-3 rounded-xl border border-white/20 uppercase font-black text-[10px] transition-all no-anim">
-            Exporter CSV
-        </a>
+        <a href="export_finance.php" class="bg-white/10 hover:bg-teal-500 hover:text-slate-900 px-6 py-3 rounded-xl border border-white/20 uppercase font-black text-[10px] transition-all no-anim">Exporter CSV</a>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-start">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        <div class="lg:col-span-8 dashboard-glass p-6 md:p-8">
-            <h3 class="text-[11px] md:text-sm font-black uppercase tracking-widest text-slate-400 mb-8 flex items-center">
-                <span class="w-2 h-2 bg-teal-500 rounded-full mr-3 animate-pulse"></span>
-                Flux de Trésorerie Mensuel
+        <div class="lg:col-span-8 dashboard-glass p-8">
+            <h3 class="text-sm font-black uppercase tracking-widest text-slate-400 mb-8 flex items-center">
+                <span class="w-2 h-2 bg-teal-500 rounded-full mr-3 animate-pulse"></span> Revenus Mensuels
             </h3>
-            
             <div class="space-y-4">
                 <?php foreach($rapport_mois as $r): ?>
-                <div class="flex flex-row items-center justify-between p-4 md:p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-teal-500/30 transition-all group">
-                    <div class="flex items-center gap-4 md:gap-6">
-                        <span class="text-slate-500 font-mono text-xs"><?= sprintf("%02d", $r['mois']) ?></span>
-                        <span class="text-sm md:text-xl font-bold text-slate-200 group-hover:text-teal-400 transition"><?= $nom_mois[$r['mois']] ?></span>
-                    </div>
-                    <div class="stat-value text-base md:text-2xl font-bold text-white">
-                        <?= number_format($r['total'], 0, '.', ' ') ?> 
-                        <span class="text-[10px] text-teal-500/50 ml-1">HTG</span>
-                    </div>
+                <div class="flex items-center justify-between p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-teal-500/30 transition-all">
+                    <span class="text-xl font-bold text-slate-200"><?= $nom_mois[$r['mois']] ?></span>
+                    <div class="stat-value text-2xl font-bold text-white"><?= number_format($r['total'], 0, '.', ' ') ?> <span class="text-[10px] text-teal-500/50">HTG</span></div>
                 </div>
                 <?php endforeach; ?>
             </div>
@@ -100,54 +83,58 @@ $nom_mois = [1=>"Janvier", 2=>"Février", 3=>"Mars", 4=>"Avril", 5=>"Mai", 6=>"J
 
         <div class="lg:col-span-4 space-y-6">
             
-            <div class="bg-gradient-to-br from-teal-500 to-emerald-600 p-6 md:p-8 rounded-[30px] shadow-2xl shadow-teal-500/20 transform hover:scale-[1.02] transition-transform">
-                <p class="text-white/70 text-[9px] md:text-[10px] font-black uppercase tracking-widest">Projection Annuelle</p>
-                <h4 class="text-3xl md:text-4xl font-black text-white mt-2 stat-value">Est. <?= $projection_format ?></h4>
-                <div class="mt-4 flex items-center gap-2">
-                    <span class="text-[9px] bg-white/20 px-2 py-1 rounded-full text-white font-bold uppercase">Basé sur <?= $nb_mois ?> mois</span>
-                </div>
+            <div class="bg-gradient-to-br from-teal-500 to-emerald-600 p-8 rounded-[30px] shadow-2xl">
+                <p class="text-white/70 text-[10px] font-black uppercase tracking-widest">Projection Annuelle</p>
+                <h4 class="text-4xl font-black text-white mt-2 stat-value italic"><?= $projection_format ?></h4>
             </div>
 
-            <div class="dashboard-glass p-6 md:p-8 border-t-4 border-t-rose-500">
-                <h3 class="text-[11px] md:text-sm font-black uppercase tracking-widest text-rose-500 mb-6">Risques de Recouvrement</h3>
-                <div class="space-y-3 max-h-[300px] md:max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-                    <?php foreach($impayes as $i): ?>
-                    <div class="p-4 rounded-xl bg-white/5 flex justify-between items-center group hover:bg-rose-500/10 transition-all border border-white/5">
-                        <div class="overflow-hidden">
-                            <p class="text-xs font-bold text-slate-200 truncate"><?= htmlspecialchars($i['nom'] . ' ' . $i['prenom']) ?></p>
-                            <p class="text-[10px] font-mono text-slate-500 mt-1"><?= $i['telephone'] ?></p>
-                        </div>
-                        <a href="tel:<?= $i['telephone'] ?>" class="w-8 h-8 flex items-center justify-center bg-white/5 rounded-full hover:bg-rose-500 hover:text-white transition-all text-xs border border-white/10 shrink-0 ml-2">
-                            📞
-                        </a>
-                    </div>
-                    <?php endforeach; ?>
-                    
-                    <?php if(empty($impayes)): ?>
-                        <p class="text-xs text-slate-500 italic text-center py-4">Aucun impayé détecté.</p>
-                    <?php endif; ?>
-                </div>
+            <div class="dashboard-glass p-6 border-t-4 border-t-rose-500">
+    <h3 class="text-xs font-black uppercase tracking-widest text-white mb-6">Suivi des Membres</h3>
+    
+    <div class="space-y-4 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+        
+        <?php foreach($impayes as $i): ?>
+        <div class="p-4 rounded-xl bg-red-500/20 border border-red-500/30 flex flex-col gap-2 mb-3">
+            <div class="flex justify-between items-start">
+                <p class="text-sm font-black text-white"><?= htmlspecialchars($i['nom'] . ' ' . $i['prenom']) ?></p>
+                <span class="text-[9px] font-black bg-red-600 text-white px-2 py-1 rounded-full uppercase shadow-lg shadow-red-500/50">Dette</span>
             </div>
-            
+            <div class="flex justify-between items-center text-[11px] mt-1">
+                <span class="text-slate-300 truncate mr-2"><?= htmlspecialchars($i['email']) ?></span>
+                <a href="envoyer_rappel.php?id=<?= $i['id'] ?>" 
+   class="text-white bg-teal-600 px-3 py-1 rounded-lg font-black hover:bg-white hover:text-teal-600 transition shrink-0">
+    RAPPELLER
+</a>
+            </div>
+        </div>
+        <?php endforeach; ?>
+
+        <?php foreach($alertes as $a): ?>
+        <div class="p-4 rounded-xl bg-amber-500/20 border border-amber-500/30 flex flex-col gap-2 mb-3">
+            <div class="flex justify-between items-start">
+                <p class="text-sm font-black text-white"><?= htmlspecialchars($a['nom'] . ' ' . $a['prenom']) ?></p>
+                <span class="text-[9px] font-black bg-amber-500 text-slate-900 px-2 py-1 rounded-full uppercase">Bientôt</span>
+            </div>
+            <p class="text-[10px] text-amber-200 font-bold italic">Expire le : <?= date('d/m', strtotime($a['date_fin'])) ?></p>
+            <div class="flex justify-between items-center text-[11px] mt-1">
+                <span class="text-slate-300 truncate mr-2"><?= htmlspecialchars($a['email']) ?></span>
+                <a href="mailto:<?= $a['email'] ?>?subject=Rappel Expiration - Dechouke Grès&body=Bonjour <?= htmlspecialchars($a['prenom']) ?>, votre abonnement arrive à échéance le <?= date('d/m/Y', strtotime($a['date_fin'])) ?>. Pensez à renouveler !" 
+                   class="text-white bg-amber-600 px-3 py-1 rounded-lg font-black hover:bg-white hover:text-amber-600 transition shrink-0">
+                    ALERTER ✉️
+                </a>
+            </div>
+        </div>
+        <?php endforeach; ?>
+
+        <?php if(empty($impayes) && empty($alertes)): ?>
+            <div class="py-10 text-center">
+                <p class="text-xs text-slate-500 italic">Tout est à jour ! ✅</p>
+            </div>
+        <?php endif; ?>
+
+    </div>
+</div>
         </div>
     </div>
 </div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const container = document.getElementById('main-content');
-    const links = document.querySelectorAll('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="tel:"]):not(.no-anim)');
-    
-    links.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const dest = this.href;
-            container.classList.remove('animate__fadeInUp');
-            container.classList.add('animate__fadeOutDown');
-            setTimeout(() => { window.location.href = dest; }, 500);
-        });
-    });
-});
-</script>
-
 <?php echo "</main></body></html>"; ?>

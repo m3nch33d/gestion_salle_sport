@@ -57,6 +57,19 @@ try {
     /* Conservation du design d'origine pour les cartes */
     .stat-card { background: rgba(255, 255, 255, 0.95); transition: all 0.3s ease; }
     .stat-card:hover { transform: translateY(-5px); }
+
+     .glass-effect {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+    .glass-header { background: rgba(45, 212, 191, 0.5); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    .glass-btn { background: rgba(45, 212, 191, 0.2); backdrop-filter: blur(10px); border: 1px solid rgba(45, 212, 191, 0.3); transition: all 0.3s ease; }
+    .glass-btn:hover { background: rgba(45, 212, 191, 0.5); transform: translateY(-2px); }
+
 </style>
 
 <video autoplay muted loop playsinline id="video-bg">
@@ -66,21 +79,21 @@ try {
 
 <div id="main-content" class="space-y-6 md:space-y-8 p-4 md:p-8 rounded-[24px] md:rounded-[40px] border-[8px] border-slate-900 shadow-2xl bg-slate-900/40 backdrop-blur-sm animate__animated animate__fadeInUp">
     
-    <div class="flex flex-col md:flex-row justify-between bg-teal-500 rounded-[20px] items-start md:items-center shadow-lg p-5 md:p-6 gap-4">
-        <div class="flex items-center space-x-4">
-            <div class="bg-white/20 p-2 rounded-xl hidden md:block border border-white/30">
-                <img src="assets/images/logogym.png" class="w-10 h-10">
-            </div>
-            <div>
-                <h2 class="text-2xl md:text-3xl font-black text-slate-900 tracking-tight uppercaseLeading-none">Dashboard</h2>
-                <p class="text-slate-100 text-sm font-medium italic">Salut, <?= htmlspecialchars($_SESSION['utilisateur_nom'] ?? 'Admin') ?> !</p>
-            </div>
+    <div class="glass-header  flex flex-col md:flex-row justify-between  rounded-[20px] items-start md:items-center shadow-lg p-5 md:p-6 gap-4">
+    <div class="flex items-center space-x-4">
+        <div class="bg-slate-900/30 p-2 rounded-xl hidden md:block border border-teal-500/50">
+            <img src="assets/images/logogym.png" class="w-10 h-10">
         </div>
-        
-        <div class="text-left md:text-right w-full md:w-auto border-t md:border-t-0 border-black/10 pt-3 md:pt-0">
-            <p class="text-xs md:text-sm font-bold text-white uppercase tracking-widest"><?= date('d F Y') ?></p>
+        <div>
+            <h2 class="text-2xl md:text-3xl font-black text-white tracking-tight uppercase leading-none">Dashboard</h2>
+            <p class="text-teal-300 text-sm font-medium italic">Salut, <?= htmlspecialchars($_SESSION['utilisateur_nom'] ?? 'Admin') ?> !</p>
         </div>
     </div>
+    
+    <div class="text-left md:text-right w-full md:w-auto border-t md:border-t-0 border-white/10 pt-3 md:pt-0">
+        <p class="text-xs md:text-sm font-bold text-slate-300 uppercase tracking-widest"><?= date('d F Y') ?></p>
+    </div>
+</div>
 
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <div class="stat-card p-4 md:p-6 rounded-[24px] md:rounded-[30px] shadow-xl flex flex-col md:flex-row items-center md:space-x-4 text-center md:text-left">
@@ -152,13 +165,13 @@ try {
         </div>
 
         <div class="flex flex-col gap-4">
-            <a href="ajouter_membre.php" class="flex-1 p-6 md:p-8 bg-teal-500 text-slate-900 rounded-[24px] md:rounded-[30px] shadow-lg hover:bg-teal-400 transition transform hover:-translate-y-2 group">
-                <div class="bg-white/30 w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center mb-4 border border-white/30">
+            <a href="ajouter_membre.php" class="glass-btn flex-1 p-6 md:p-8 bg-teal-900 text-white rounded-[24px] md:rounded-[30px] shadow-lg hover:bg-slate-800 transition transform hover:-translate-y-2 border border-slate-700 group">
+                <div class="bg-white/10 w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center mb-4 border border-white/20">
                     <img src="assets/images/add.png" class="w-6 h-6 md:w-8 md:h-8">
                 </div>
-                <p class="font-black uppercase tracking-tighter text-sm md:text-base leading-none">Nouveau Membre</p>
+                <p class="font-black uppercase tracking-tighter text-sm md:text-base leading-none">Ajouter un membre</p>
             </a>
-            <a href="scanner.php" class="flex-1 p-6 md:p-8 bg-slate-900 text-white rounded-[24px] md:rounded-[30px] shadow-lg hover:bg-slate-800 transition transform hover:-translate-y-2 border border-slate-700 group">
+            <a href="scanner.php" class="glass-btn flex-1 p-6 md:p-8 bg-slate-900 text-white rounded-[24px] md:rounded-[30px] shadow-lg hover:bg-slate-800 transition transform hover:-translate-y-2 border border-slate-700 group">
                 <div class="bg-white/10 w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center mb-4 border border-white/20">
                     <img src="assets/images/security.png" class="w-6 h-6 md:w-8 md:h-8">
                 </div>

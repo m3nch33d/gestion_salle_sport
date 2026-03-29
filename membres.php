@@ -8,18 +8,15 @@ $membres = $query->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-
 <style>
     body { margin: 0; overflow-x: hidden; font-family: 'Inter', sans-serif; }
     #video-bg { position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%; z-index: -2; object-fit: cover; filter: brightness(0.4); }
     .video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.3); z-index: -1; }
     
-    /* Glassmorphism */
     .glass-header { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); }
     .glass-btn { background: rgba(45, 212, 191, 0.2); backdrop-filter: blur(10px); border: 1px solid rgba(45, 212, 191, 0.3); transition: all 0.3s ease; }
     .glass-btn:hover { background: rgba(45, 212, 191, 0.5); transform: translateY(-2px); }
 
-    /* Table Responsive Hack */
     @media (max-width: 768px) {
         table, thead, tbody, th, td, tr { display: block; }
         thead tr { position: absolute; top: -9999px; left: -9999px; }
@@ -69,8 +66,14 @@ $membres = $query->fetchAll(PDO::FETCH_ASSOC);
                     <tr class="hover:bg-teal-50 transition-all duration-300 group">
                         <td class="px-4 md:px-8 py-4 md:py-6">
                             <div class="flex items-center">
-                                <div class="h-10 w-10 md:h-12 md:w-12 rounded-full bg-teal-500 text-white flex items-center justify-center font-black shadow-lg">
-                                    <?= strtoupper(substr($m['nom'] ?? '?', 0, 1)) ?>
+                                <div class="h-10 w-10 md:h-12 md:w-12 rounded-full overflow-hidden flex items-center justify-center border-2 border-teal-500/20 shadow-lg bg-teal-500">
+                                    <?php 
+                                    $path = "assets/uploads/" . ($m['photo'] ?? 'default.png');
+                                    if(!empty($m['photo']) && file_exists($path) && $m['photo'] != 'default.png'): ?>
+                                        <img src="<?= $path ?>" class="w-full h-full object-cover">
+                                    <?php else: ?>
+                                        <span class="text-white font-black"><?= strtoupper(substr($m['nom'] ?? '?', 0, 1)) ?></span>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="ml-4">
                                     <p class="text-slate-900 font-black text-sm md:text-lg uppercase leading-tight"><?= htmlspecialchars($m['nom'] . ' ' . $m['prenom']) ?></p>
@@ -86,13 +89,13 @@ $membres = $query->fetchAll(PDO::FETCH_ASSOC);
                                 <?= $m['statut'] ?>
                             </span>
                         </td>
-                       <td class="px-6 py-4 text-right">
-    <div class="flex items-center justify-end gap-3 md:gap-4">
-        <a href="modifier_membre.php?id=<?= $m['id'] ?>" class="text-orange-500 font-black text-[10px] uppercase hover:text-orange-700 transition">Éditer</a>
-        <a href="carte.php?id=<?= $m['id'] ?>" class="text-teal-600 font-black text-[10px] uppercase hover:text-teal-800 transition">Carte</a>
-        <button onclick="confirmerSuppression(<?= $m['id'] ?>, '<?= htmlspecialchars(addslashes($m['nom'])) ?>')" class="text-rose-500 font-black text-[10px] uppercase hover:text-rose-700 transition">Supprimer</button>
-    </div>
-</td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-3 md:gap-4">
+                                <a href="modifier_membre.php?id=<?= $m['id'] ?>" class="text-orange-500 font-black text-[10px] uppercase hover:text-orange-700 transition">Éditer</a>
+                                <a href="carte.php?id=<?= $m['id'] ?>" class="text-teal-600 font-black text-[10px] uppercase hover:text-teal-800 transition">Carte</a>
+                                <button onclick="confirmerSuppression(<?= $m['id'] ?>, '<?= htmlspecialchars(addslashes($m['nom'])) ?>')" class="text-rose-500 font-black text-[10px] uppercase hover:text-rose-700 transition">Supprimer</button>
+                            </div>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

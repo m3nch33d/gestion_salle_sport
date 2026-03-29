@@ -66,7 +66,7 @@ try {
     <div class="flex flex-header justify-between items-center">
         <div class="glass-title">
             <h2 class="text-2xl md:text-3xl font-black text-teal-300 tracking-tight uppercase">Suivi des Abonnements</h2>
-            <p class="text-white/60 text-xs md:text-sm font-medium italic">Historique des paiements et validité des accès</p>
+            <p class="text-slate-400 text-xs md:text-sm font-medium italic">Historique des paiements et validité des accès</p>
         </div>
 
         <a href="ajouter_abonnement.php" class="glass-btn-teal px-6 md:px-8 py-4 rounded-3xl font-black shadow-lg flex items-center transform">
@@ -139,7 +139,7 @@ try {
                         <span class="px-2 py-0.5 bg-orange-500/20 text-orange-400 text-[8px] md:text-[9px] font-black uppercase rounded-lg border border-orange-500/30">
                             Attention
                         </span>
-                        <span class="text-white font-mono text-xs font-bold">J-<?= $jours_restants ?></span>
+                        <span class="text-teal-400 font-mono text-xs font-bold">J-<?= $jours_restants ?></span>
                     </div>
                     
                     <h4 class="text-white font-bold text-base md:text-lg uppercase"><?= htmlspecialchars($a['nom'] . ' ' . $a['prenom']) ?></h4>

@@ -86,8 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="md:col-span-2 space-y-2">
                 <label class="block text-teal-400 text-[10px] font-black uppercase ml-4 tracking-[0.2em]">Coach Responsable</label>
                 <select name="coach_id" required 
-                    class="w-full bg-slate-900/50 border border-white/10 rounded-2xl p-4 text-white focus:border-teal-500 outline-none transition-all text-sm">
-                    <option value="">-- Choisir le coach --</option>
+                    class="w-full bg-slate-900/50 border border-white/10 rounded-2xl p-4 text-slate-300 focus:border-teal-500 outline-none transition-all text-sm">
+                    <option value="">Choisir le coach</option>
                     <?php foreach($coaches as $c): ?>
                         <option value="<?= $c['id'] ?>"><?= htmlspecialchars($c['prenom'] . ' ' . $c['nom']) ?></option>
                     <?php endforeach; ?>
@@ -123,21 +123,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="space-y-2">
                 <label class="block text-teal-400 text-[10px] font-black uppercase ml-4 tracking-[0.2em]">Heure Début</label>
                 <input type="time" name="heure_debut" required 
-                    class="w-full bg-slate-900/50 border border-white/10 rounded-2xl p-4 text-white focus:border-teal-500 outline-none transition-all text-sm">
+                    class="w-full bg-slate-900/50 border border-white/10 rounded-2xl p-4 text-slate-300 focus:border-teal-500 outline-none transition-all text-sm">
             </div>
 
             <div class="space-y-2">
                 <label class="block text-teal-400 text-[10px] font-black uppercase ml-4 tracking-[0.2em]">Heure Fin</label>
                 <input type="time" name="heure_fin" required 
-                    class="w-full bg-slate-900/50 border border-white/10 rounded-2xl p-4 text-white focus:border-teal-500 outline-none transition-all text-sm">
+                    class="w-full bg-slate-900/50 border border-white/10 rounded-2xl p-4 text-slate-300 focus:border-teal-500 outline-none transition-all text-sm">
             </div>
 
             <div class="md:col-span-2 pt-4">
                 <button type="submit" 
-                    class="w-full bg-teal-500 hover:bg-teal-400 text-slate-900 font-black py-4 md:py-5 rounded-2xl uppercase tracking-[0.2em] md:tracking-[0.3em] transition-all transform hover:scale-[1.01] shadow-xl shadow-teal-500/20 text-xs md:text-sm">
+                    class="w-full bg-teal-500 hover:bg-teal-400 text-slate-700 font-black py-4 md:py-5 rounded-2xl uppercase tracking-[0.2em] md:tracking-[0.3em] transition-all transform hover:scale-[1.01] shadow-xl shadow-teal-500/20 text-xs md:text-sm">
                     Enregistrer le planning
                 </button>
-            </div>gi
+            </div>
         </form>
     </div>
 </div>

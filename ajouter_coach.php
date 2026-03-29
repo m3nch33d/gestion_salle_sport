@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <form method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8">
             <div class="space-y-2">
-                <label class="block text-teal-400 text-[10px] font-black uppercase ml-2 md:ml-4 tracking-[0.2em]">Nom de l'entraîneur</label>
+                <label class="block text-teal-400 text-[10px] font-black uppercase ml-2 md:ml-4 tracking-[0.2em]">Nom</label>
                 <input type="text" name="nom" required 
                     class="w-full glass-input rounded-2xl p-4 text-white placeholder:text-slate-600">
             </div>
@@ -89,13 +89,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
 
             <div class="md:col-span-2 space-y-2">
-                <label class="block text-teal-400 text-[10px] font-black uppercase ml-2 md:ml-4 tracking-[0.2em]">Spécialité (Egzijans #6)</label>
+                <label class="block text-teal-400 text-[10px] font-black uppercase ml-2 md:ml-4 tracking-[0.2em]">Spécialité(s)</label>
                 <input type="text" name="specialite" placeholder="Ex: Musculation, Boxe, Yoga..." required 
                     class="w-full glass-input rounded-2xl p-4 text-white">
             </div>
 
             <div class="md:col-span-2 space-y-2">
-                <label class="block text-teal-400 text-[10px] font-black uppercase ml-2 md:ml-4 tracking-[0.2em]">Numéro de Téléphone</label>
+                <label class="block text-teal-400 text-[10px] font-black uppercase ml-2 md:ml-4 tracking-[0.2em]">Téléphone</label>
                 <input type="text" name="telephone" 
                     class="w-full glass-input rounded-2xl p-4 text-white">
             </div>

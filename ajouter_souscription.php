@@ -74,7 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         color: white;
     }
 
-    label { color: rgba(255, 255, 255, 0.8) !important; }
+    label { color: rgb(2, 1, 45) !important; 
+    }
 </style>
 
 <video autoplay muted loop id="video-bg">
