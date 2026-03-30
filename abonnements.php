@@ -79,7 +79,7 @@ try {
         <div class="overflow-x-auto">
             <table class="min-w-full">
                 <thead>
-                    <tr class="bg-slate-50 border-b border-slate-200 text-slate-400 text-left text-[10px] md:text-xs uppercase font-bold tracking-widest shadow-sm">
+                    <tr class="bg-slate-50 border-b border-slate-200 text-slate-400 text-left text-[10px] md:text-xs uppercase font-bold tracking-widest shadow-xl">
                         <th class="px-6 py-5">Membre</th>
                         <th class="px-6 py-5">Début</th>
                         <th class="px-6 py-5">Fin</th>

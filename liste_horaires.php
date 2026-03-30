@@ -113,8 +113,7 @@ function koutJou($str) {
     }
 </style>
 
-<div id="main-content" class="p-4 md:p-10 animate__animated animate__fadeInUp">
-    
+<div id="main-content" class="p-4  md:p-10 animate__animated animate__fadeInUp">   
     <div class="glass-header">
         <div class="glass-title">
             <h1>GESTION DES HORAIRES</h1>
@@ -125,7 +124,7 @@ function koutJou($str) {
         </a>
     </div>
 
-    <div class="white-card">
+    <div class="white-card ">
         <div class="grid-layout table-header shadow-xl">
             <div>Jour</div>
             <div class="text-center">Heure</div>

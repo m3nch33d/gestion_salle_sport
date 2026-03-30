@@ -98,11 +98,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
         <div class="hidden md:flex w-1/2 flex-col justify-center items-center text-center p-12 relative bg-gradient-to-br from-teal-500/10 to-transparent border-l border-white/5">
-            <h2 class="text-6xl font-black text-white mb-4 tracking-tighter animate__animated animate__fadeInRight">ADM seulement</h2>
-            <p class="text-teal-100/60 italic text-lg mb-10 animate__animated animate__fadeInRight" style="animation-delay: 0.5s;">Welcome back, Augustin & Célestin!</p>
+            <h2 class="text-6xl font-black text-white mb-4 tracking-tighter animate__animated animate__fadeInRight">Welcome back</h2>
+            <p class="text-teal-100/60 italic text-lg mb-10 animate__animated animate__fadeInRight" style="animation-delay: 0.5s;">What about today ?!</p>
             
-            <img src="assets/images/wel_guy.png" 
-                 alt="Coach" class="w-64 h-auto drop-shadow-[0_0_30px_rgba(20,184,166,0.3)] animate__animated animate__pulse animate__infinite animate__slow">
+            <img src="assets/images/gymlog.png" 
+                 alt="Coach" class="w-80 h-auto drop-shadow-[0_0_30px_rgba(20,184,166,0.3)] animate__animated animate__pulse animate__infinite animate__slow">
         </div>
     </div>
 

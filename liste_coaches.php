@@ -38,7 +38,7 @@ try {
     @media (min-width: 768px) {
         .table-wrapper {
             border-radius: 40px;
-            border: 12px solid white;
+            border: 3px solid white;
         }
     }
 </style>
@@ -50,7 +50,7 @@ try {
             <h1 class="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter">
                 Gestion <span class="text-teal-400">Coaches</span>
             </h1>
-            <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.3em]">NeuroCode Gym</p>
+            <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.3em]">Dechouke Grès Fitness</p>
         </div>
         
         <a href="ajouter_coach.php" class="w-full md:w-auto bg-teal-400 hover:bg-teal-300 text-slate-900 font-black px-6 md:px-8 py-4 rounded-2xl shadow-lg transition-all transform hover:scale-105 flex items-center justify-center">
@@ -59,11 +59,11 @@ try {
         </a>
     </div>
 
-    <div class="table-wrapper bg-white">
+    <div class="table-wrapper md:bg-white/80 md:backdrop-blur-md">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="text-slate-400 uppercase text-[9px] md:text-[10px] font-black tracking-widest border-b border-slate-100 bg-slate-50/50">
+                    <tr class="text-slate-400 uppercase text-[9px] md:text-[10px] font-black tracking-widest border-b border-slate-100 bg-slate-50/50 shadow-xl">
                         <th class="p-4 md:p-6">Coach</th>
                         <th class="p-4 md:p-6">Spécialité</th>
                         <th class="p-4 md:p-6 text-center">Actions</th>

@@ -1,100 +1,96 @@
-<?php 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+<?php
+require_once 'includes/securite.php';
+require_once 'config/db.php';
+require 'vendor/autoload.php';
+
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\Writer\PngWriter;
+
+$id = $_GET['id'] ?? null;
+$membre = null;
+
+if ($id) {
+    $stmt = $pdo->prepare("SELECT * FROM membres WHERE id = ?");
+    $stmt->execute([$id]);
+    $membre = $stmt->fetch();
 }
 
-if (!isset($_SESSION['utilisateur_id'])) {
-    header("Location: login.php");
-    exit();
-}
+if (!$membre) { die("Erreur : Membre introuvable."); }
 
-require_once 'config/db.php'; 
-
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-
-if ($id <= 0) {
-    header("Location: membres.php");
-    exit();
-}
-
-$stmt = $pdo->prepare("SELECT * FROM membres WHERE id = ?");
-$stmt->execute([$id]);
-$m = $stmt->fetch();
-
-if (!$m) {
-    die("Erreur : Ce membre n'existe pas.");
-}
-
-include 'includes/header.php'; 
+// Génération du QR Code locale (sans internet)
+$result = Builder::create()
+    ->writer(new PngWriter())
+    ->data("ID_MEMBRE:" . $membre['id'])
+    ->encoding(new Encoding('UTF-8'))
+    ->size(180)
+    ->margin(10)
+    ->build();
+$qrCodeImage = $result->getDataUri();
 ?>
 
-<style>
-    body {
-        margin: 0;
-        background: url('/gestion_salle_sport/assets/images/gymgris.jpeg') no-repeat center center fixed;
-        background-size: cover;
-    }
-
-    body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background: radial-gradient(circle at center, rgba(15, 23, 42, 0.4) 0%, rgba(2, 6, 23, 0.9) 100%);
-        z-index: -1;
-    }
-
-    /* Ajustement pour petit écran */
-    @media (max-width: 640px) {
-        .card-container { padding: 1.5rem !important; border-radius: 35px !important; }
-        .qr-box { padding: 1.5rem !important; }
-        .member-name { font-size: 1.875rem !important; }
-    }
-
-    /* Style spécifique pour l'impression */
-    @media print {
-        .no-print, nav, aside { display: none !important; }
-        body, main { background: white !important; margin: 0 !important; padding: 0 !important; }
-        .card-container { 
-            box-shadow: none !important; 
-            border: 2px solid #000 !important; 
-            margin: auto !important;
-            width: 80mm !important; /* Taille standard carte de visite environ */
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; }
+            .card-container { box-shadow: none !important; border: 2px solid #14b8a6 !important; }
         }
-    }
-</style>
+    </style>
+</head>
+<body class="bg-slate-950 flex flex-col items-center justify-center min-h-screen p-4">
 
-<div class="flex flex-col items-center justify-center min-h-[80vh] p-4 md:p-6">
-    <div class="card-container bg-white p-8 md:p-12 rounded-[50px] shadow-2xl border border-slate-100 w-full max-w-sm text-center">
+    <div class="card-container relative w-[450px] bg-slate-900 rounded-[40px] overflow-hidden border border-teal-500/30 shadow-2xl shadow-teal-500/10">
         
-        <div class="mb-6">
-            <h2 class="member-name text-3xl md:text-4xl font-black text-slate-800 uppercase leading-tight">
-                <?= htmlspecialchars($m['nom']) ?>
-            </h2>
-            <p class="text-teal-500 font-bold text-lg md:text-xl mt-1">
-                <?= htmlspecialchars($m['prenom']) ?>
-            </p>
+        <div class="bg-teal-500 py-6 text-center">
+            <h2 class="text-slate-950 font-black uppercase tracking-[0.3em] text-sm">Dechouke Grès Fitness</h2>
         </div>
 
-        <div class="qr-box bg-slate-50 p-6 md:p-8 rounded-[40px] border-2 border-dashed border-slate-200 mb-6 inline-block">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=<?= $m['id'] ?>" 
-                 alt="QR Code Membre" 
-                 class="mx-auto w-[150px] h-[150px] md:w-[180px] md:h-[180px]">
+        <div class="p-10 text-center">
+            <div class="w-44 h-44 mx-auto rounded-full border-4 border-[#5eead4] p-1.5 mb-6 overflow-hidden shadow-lg shadow-teal-500/20">
+                <?php 
+                // Mise à jour du chemin vers assets/uploads
+                $photoPath = 'assets/uploads/' . $membre['photo'];
+                
+                if (!empty($membre['photo']) && file_exists($photoPath)): ?>
+                    <img src="<?= $photoPath ?>" class="w-full h-full rounded-full object-cover">
+                <?php else: ?>
+                    <div class="w-full h-full rounded-full bg-slate-800 flex items-center justify-center">
+                        <span class="text-[#5eead4] text-[10px] font-bold">PAS DE PHOTO</span>
+                    </div>
+                <?php endif; ?>
+            </div>
+            
+            <h3 class="text-4xl font-black uppercase text-white leading-none">
+                <?= htmlspecialchars($membre['nom']) ?><br>
+                <span class="text-[#5eead4]"><?= htmlspecialchars($membre['prenom']) ?></span>
+            </h3>
+            
+            <p class="text-slate-500 text-[11px] font-bold tracking-[0.5em] uppercase mt-6 mb-8">Membre Officiel</p>
+
+            <div class="bg-white p-4 rounded-[2.5rem] inline-block shadow-xl">
+                <img src="<?= $qrCodeImage ?>" alt="QR Code" class="w-40 h-40">
+            </div>
         </div>
 
-        <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] mb-8">
-            ID : #<?= $m['id'] ?> | SCANNEZ À L'ENTRÉE
-        </p>
-
-        <div class="space-y-4 no-print">
-            <button onclick="window.print()" class="w-full bg-teal-500 hover:bg-teal-400 text-slate-900 font-black py-4 rounded-2xl transition shadow-lg flex items-center justify-center gap-2">
-                <span>🖨️</span> IMPRIMER LA CARTE
-            </button>
-            <a href="membres.php" class="block text-slate-400 font-bold hover:text-slate-600 transition text-xs uppercase tracking-widest">
-                ← Retour
-            </a>
+        <div class="flex justify-between px-10 pb-10 mt-4 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+            <div class="text-left">ID ADHÉRENT<br><span class="text-[#5eead4] text-lg">#<?= str_pad($membre['id'], 5, '0', STR_PAD_LEFT) ?></span></div>
+            <div class="text-right">STATUT<br><span class="text-[#5eead4] text-lg uppercase"><?= htmlspecialchars($membre['statut']) ?></span></div>
         </div>
     </div>
-</div>
 
-</main> </body>
+    <div class="no-print flex gap-4 mt-12">
+        <button onclick="window.print()" class="bg-teal-500 text-slate-950 px-10 py-4 rounded-2xl font-black uppercase text-xs hover:scale-105 transition-all shadow-lg shadow-teal-500/30">
+            Imprimer la carte
+        </button>
+        <a href="membres.php" class="bg-slate-800 text-white px-10 py-4 rounded-2xl font-black uppercase text-xs hover:bg-slate-700 transition-all">
+            Retour
+        </a>
+    </div>
+
+</body>
 </html>

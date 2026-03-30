@@ -28,7 +28,7 @@ function verifierAdmin() {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dechouke Grès Fitness - Admin</title>
     <link rel="stylesheet" href="<?= $base_url ?>public/css/style.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }

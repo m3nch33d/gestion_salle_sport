@@ -14,7 +14,7 @@ $utilisateurs = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste Staff - Dechouke Grès</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <link rel="stylesheet" href="public/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
@@ -55,7 +55,7 @@ $utilisateurs = $stmt->fetchAll();
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse min-w-[600px]">
                     <thead>
-                        <tr class="bg-white/5 text-teal-400 text-[9px] md:text-[10px] uppercase tracking-widest">
+                        <tr class="bg-white/5 text-teal-400 text-[9px] md:text-[10px] uppercase tracking-widest shadow-xl">
                             <th class="p-4 md:p-6">Identité</th>
                             <th class="p-4 md:p-6">Email</th>
                             <th class="p-4 md:p-6">Rôle / Niveau</th>
